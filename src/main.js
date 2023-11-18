@@ -24,7 +24,9 @@ function init() {
     );
 
     const geometry = new Three.BoxGeometry(2, 2, 2);
-    const material = new Three.MeshBasicMaterial({ color: "0xcc99ff" });
+    // MeshBasicMaterial: 조명과 상관 없이 화면에 표현됨
+    // const material = new Three.MeshBasicMaterial({ color: "0xcc99ff" });
+    const material = new Three.MeshStandardMaterial({ color: 0xcc99ff });
 
     const cube = new Three.Mesh(geometry, material);
 
@@ -33,6 +35,18 @@ function init() {
     camera.position.set(3, 4, 5);
 
     camera.lookAt(cube.position);
+
+    const directionalLight = new Three.DirectionalLight(0xf0f0f0, 1);
+
+    directionalLight.position.set(-1, 2, 3);
+
+    scene.add(directionalLight);
+
+    const ambientLight = new Three.AmbientLight(0xffffff, 0.1);
+
+    ambientLight.position.set(3, 2, 1);
+
+    scene.add(ambientLight);
 
     renderer.render(scene, camera);
 }
