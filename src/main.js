@@ -48,7 +48,20 @@ function init() {
 
     scene.add(ambientLight);
 
-    renderer.render(scene, camera);
+    const clock = new Three.Clock();
+
+    render();
+
+    function render() {
+        // cube.rotation.x = Three.MathUtils.degToRad(45);
+        cube.rotation.x += clock.getDelta();
+        // cube.position.y = Math.sin(cube.rotation.x);
+        // cube.scale.x = Math.cos(cube.rotation.x);
+
+        renderer.render(scene, camera);
+
+        requestAnimationFrame(render);
+    }
 
     function handleResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
