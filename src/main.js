@@ -23,40 +23,42 @@ function init() {
         500 // far
     );
 
-    const geometry = new Three.BoxGeometry(2, 2, 2);
-    // MeshBasicMaterial: 조명과 상관 없이 화면에 표현됨
-    // const material = new Three.MeshBasicMaterial({ color: "0xcc99ff" });
-    const material = new Three.MeshStandardMaterial({ color: 0xcc99ff });
+    const cubeGeometry = new Three.IcosahedronGeometry(1);
+    const cubeMaterial = new Three.MeshLambertMaterial({
+        color: 0x00ffff,
+        emissive: 0x111111,
+    });
+    const cube = new Three.Mesh(cubeGeometry, cubeMaterial);
 
-    const cube = new Three.Mesh(geometry, material);
+    const skeletonGeometry = new Three.IcosahedronGeometry(2);
+    const skeletonMaterial = new Three.MeshBasicMaterial({
+        wireframe: true,
+        transparent: true,
+        opacity: 0.2,
+        color: 0xaaaaaa,
+    });
+    const skeleton = new Three.Mesh(skeletonGeometry, skeletonMaterial);
 
-    scene.add(cube);
+    scene.add(cube, skeleton);
 
-    camera.position.set(3, 4, 5);
+    camera.position.z = 5;
 
-    camera.lookAt(cube.position);
-
-    const directionalLight = new Three.DirectionalLight(0xf0f0f0, 1);
-
-    directionalLight.position.set(-1, 2, 3);
+    const directionalLight = new Three.DirectionalLight(0xffffff, 1);
 
     scene.add(directionalLight);
-
-    const ambientLight = new Three.AmbientLight(0xffffff, 0.1);
-
-    ambientLight.position.set(3, 2, 1);
-
-    scene.add(ambientLight);
 
     const clock = new Three.Clock();
 
     render();
 
     function render() {
-        // cube.rotation.x = Three.MathUtils.degToRad(45);
-        cube.rotation.x += clock.getDelta();
-        // cube.position.y = Math.sin(cube.rotation.x);
-        // cube.scale.x = Math.cos(cube.rotation.x);
+        const elapsedTime = clock.getElapsedTime();
+
+        cube.rotation.x = elapsedTime;
+        cube.rotation.y = elapsedTime;
+
+        skeleton.rotation.x = elapsedTime * 1.5;
+        skeleton.rotation.y = elapsedTime * 1.5;
 
         renderer.render(scene, camera);
 
