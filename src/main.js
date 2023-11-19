@@ -1,4 +1,5 @@
 import { renderCube } from "./container/Cube";
+import { renderText } from "./container/Text";
 
 window.addEventListener("load", () => {
     init();
@@ -11,6 +12,9 @@ const init = () => {
         case "/cube":
             renderCube();
             break;
+        case "/text":
+            renderText();
+            break;
         case "/":
         default:
             renderNav();
@@ -22,7 +26,7 @@ const renderNav = () => {
     const nav = document.createElement("nav");
     const ul = document.createElement("ul");
 
-    const menuList = ["cube"];
+    const menuList = ["cube", "text"];
 
     menuList.forEach((menu) => {
         const li = document.createElement("li");
