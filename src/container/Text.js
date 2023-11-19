@@ -36,13 +36,22 @@ export async function renderText() {
         font,
         size: 0.5,
         height: 0.1,
+        bevelEnabled: true,
+        bevelSegments: 5,
+        bevelSize: 0.02,
+        bevelThickness: 0.02,
     });
-    const textMaterial = new Three.MeshPhongMaterial({
-        color: 0x00c896,
-    });
+    const textMaterial = new Three.MeshPhongMaterial();
     const text = new Three.Mesh(textGeometry, textMaterial);
     textGeometry.computeBoundingBox();
     textGeometry.center();
+
+    /** Texture */
+    const textureLoader = new Three.TextureLoader();
+    const textTexture = textureLoader.load(
+        "../assets/texture/holographic.jpeg"
+    );
+    textMaterial.map = textTexture;
     scene.add(text);
 
     /** AmbientLight */
@@ -51,10 +60,9 @@ export async function renderText() {
 
     /** PoinLight */
     const pointLight = new Three.PointLight(0xffffff, 0.5);
-    const pointLightHelper = new Three.PointLightHelper(pointLight, 0.5);
     pointLight.position.set(3, 0, 2);
 
-    scene.add(pointLight, pointLightHelper);
+    scene.add(pointLight);
 
     gui.add(pointLight.position, "x").min(-3).max(3).step(0.1);
 
