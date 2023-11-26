@@ -57,10 +57,10 @@ export async function renderText() {
 
     /** Plane */
     const planeGeometry = new Three.PlaneGeometry(2000, 2000);
-    const planeMeterial = new Three.MeshPhongMaterial({ color: "white" });
+    const planeMeterial = new Three.MeshPhongMaterial({ color: "black" });
 
     const plane = new Three.Mesh(planeGeometry, planeMeterial);
-    plane.position.z = -10;
+    plane.position.z = -3;
 
     scene.add(plane);
 
@@ -81,8 +81,12 @@ export async function renderText() {
     spotLight.target.position.set(0, 0, -3);
     scene.add(spotLight, spotLight.target);
 
-    const spotLightHelper = new Three.SpotLightHelper(spotLight);
-    scene.add(spotLightHelper);
+    window.addEventListener("mousemove", (e) => {
+        // three.js에서 인식하는 좌표계로 변환
+        const x = (e.clientX / window.innerWidth - 0.5) * 5;
+        const y = (e.clientY / window.innerHeight - 0.5) * 5 * -1;
+        spotLight.target.position.set(x, y, -3);
+    });
 
     const spotLightFolder = gui.addFolder("SpotLight");
     spotLightFolder
@@ -109,8 +113,6 @@ export async function renderText() {
     function render() {
         renderer.render(scene, camera);
 
-        spotLightHelper.update();
-
         requestAnimationFrame(render);
     }
 
@@ -122,8 +124,6 @@ export async function renderText() {
         renderer.setSize(window.innerWidth, window.innerHeight);
 
         renderer.render(scene, camera);
-
-        spotLightHelper.update();
     }
 
     window.addEventListener("resize", handleResize);
