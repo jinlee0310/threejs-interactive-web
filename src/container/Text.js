@@ -97,6 +97,11 @@ export async function renderText() {
         spotLight.target.position.set(x, y, -3);
     });
 
+    const spotLightTexture = textureLoader.load(
+        "../assets/texture/gradient.jpg"
+    );
+    spotLight.map = spotLightTexture;
+
     const spotLightFolder = gui.addFolder("SpotLight");
     spotLightFolder
         .add(spotLight, "angle")
