@@ -78,7 +78,7 @@ export async function renderText() {
         0.5
     );
     spotLight.position.set(0, 0, 3);
-    spotLight.target.position.set(0, 0 - 3);
+    spotLight.target.position.set(0, 0, -3);
     scene.add(spotLight, spotLight.target);
 
     const spotLightHelper = new Three.SpotLightHelper(spotLight);
