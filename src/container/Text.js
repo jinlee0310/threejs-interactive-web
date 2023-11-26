@@ -44,7 +44,9 @@ export async function renderText() {
     });
     const textMaterial = new Three.MeshPhongMaterial();
     const text = new Three.Mesh(textGeometry, textMaterial);
-    textGeometry.computeBoundingBox();
+
+    text.castShadow = true;
+
     textGeometry.center();
 
     /** Texture */
@@ -57,10 +59,11 @@ export async function renderText() {
 
     /** Plane */
     const planeGeometry = new Three.PlaneGeometry(2000, 2000);
-    const planeMeterial = new Three.MeshPhongMaterial({ color: "black" });
+    const planeMeterial = new Three.MeshPhongMaterial({ color: "white" });
 
     const plane = new Three.Mesh(planeGeometry, planeMeterial);
     plane.position.z = -3;
+    plane.receiveShadow = true;
 
     scene.add(plane);
 
@@ -77,8 +80,14 @@ export async function renderText() {
         0.2,
         0.5
     );
+
     spotLight.position.set(0, 0, 3);
     spotLight.target.position.set(0, 0, -3);
+    spotLight.castShadow = true;
+    spotLight.shadow.mapSize.width = 1024;
+    spotLight.shadow.mapSize.height = 1024;
+    spotLight.shadow.radius = 10;
+
     scene.add(spotLight, spotLight.target);
 
     window.addEventListener("mousemove", (e) => {
@@ -107,6 +116,13 @@ export async function renderText() {
     spotLightFolder.add(spotLight, "decay").min(0).max(10).step(0.1);
 
     spotLightFolder.add(spotLight, "penumbra").min(0).max(1).step(0.01);
+
+    spotLightFolder
+        .add(spotLight.shadow, "radius")
+        .min(1)
+        .max(20)
+        .step(0.01)
+        .name("shadow.radius");
 
     render();
 
