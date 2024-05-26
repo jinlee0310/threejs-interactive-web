@@ -2,6 +2,9 @@ import * as Three from "three";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
+import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
+import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass";
 import GUI from "lil-gui";
 
 export async function renderText() {
@@ -129,10 +132,21 @@ export async function renderText() {
         .step(0.01)
         .name("shadow.radius");
 
+    /** Effects */
+    const composer = new EffectComposer(renderer);
+
+    const renderPass = new RenderPass(scene, camera);
+
+    composer.addPass(renderPass);
+
+    const unrealBloomPass = new UnrealBloomPass(
+        new Three.Vector2(window.innerWidth, window.innerHeight)
+    );
+
     render();
 
     function render() {
-        renderer.render(scene, camera);
+        composer.render(scene, camera);
 
         requestAnimationFrame(render);
     }
@@ -142,9 +156,9 @@ export async function renderText() {
 
         camera.updateProjectionMatrix();
 
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        composer.setSize(window.innerWidth, window.innerHeight);
 
-        renderer.render(scene, camera);
+        composer.render(scene, camera);
     }
 
     window.addEventListener("resize", handleResize);
