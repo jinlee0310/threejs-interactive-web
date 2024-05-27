@@ -2,13 +2,13 @@ import * as Three from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { handleResize } from "../../lib";
 import Card from "./Card";
-import Gui from "lil-gui";
+// import Gui from "lil-gui";
 import { gsap } from "gsap";
 
 const COLORS = ["#ff6e6e", "#31e0c1", "#006fff", "#ffd732"];
 
 export function renderCard() {
-    const gui = new Gui();
+    // const gui = new Gui();
     const renderer = new Three.WebGLRenderer({
         antialias: true,
         alpha: true,
@@ -44,21 +44,21 @@ export function renderCard() {
         ease: "back.out(2.5)",
     });
 
-    const cardFolder = gui.addFolder("Card");
+    // const cardFolder = gui.addFolder("Card");
 
-    cardFolder
-        .add(card.mesh.material, "roughness")
-        .min(0)
-        .max(1)
-        .step(0.01)
-        .name("material.roughness");
+    // cardFolder
+    //     .add(card.mesh.material, "roughness")
+    //     .min(0)
+    //     .max(1)
+    //     .step(0.01)
+    //     .name("material.roughness");
 
-    cardFolder
-        .add(card.mesh.material, "metalness")
-        .min(0)
-        .max(1)
-        .step(0.01)
-        .name("material.metalness");
+    // cardFolder
+    //     .add(card.mesh.material, "metalness")
+    //     .min(0)
+    //     .max(1)
+    //     .step(0.01)
+    //     .name("material.metalness");
 
     const ambientLight = new Three.AmbientLight(0xffffff, 0.8);
 
