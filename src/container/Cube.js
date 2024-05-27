@@ -1,6 +1,7 @@
 import * as Three from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import GUI from "lil-gui";
+import { handleResize } from "../lib";
 
 export function renderCube() {
     const options = {
@@ -82,19 +83,9 @@ export function renderCube() {
         requestAnimationFrame(render);
     }
 
-    function handleResize() {
-        camera.aspect = window.innerWidth / window.innerHeight;
-
-        camera.updateProjectionMatrix();
-
-        renderer.setSize(window.innerWidth, window.innerHeight);
-
-        renderer.render(scene, camera);
-
-        controls.update();
-    }
-
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", () =>
+        handleResize(renderer, camera, scene, controls)
+    );
 
     const gui = new GUI();
 
