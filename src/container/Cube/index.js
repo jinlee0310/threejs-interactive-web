@@ -1,7 +1,7 @@
 import * as Three from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import GUI from "lil-gui";
-import { handleResize } from "../lib";
+import { handleResize } from "../../lib";
 
 export function renderCube() {
     const options = {
