@@ -1,4 +1,5 @@
 import { renderCard } from "./container/Card";
+import renderCharacter from "./container/Character";
 import { renderCube } from "./container/Cube";
 import { renderText } from "./container/Text";
 import renderVillage from "./container/Village";
@@ -27,6 +28,9 @@ const init = () => {
         case "/village":
             renderVillage();
             break;
+        case "/character":
+            renderCharacter();
+            break;
         case "/":
         default:
             renderNav();
@@ -38,7 +42,7 @@ const renderNav = () => {
     const nav = document.createElement("nav");
     const ul = document.createElement("ul");
 
-    const menuList = ["cube", "text", "card", "wave", "village"];
+    const menuList = ["cube", "text", "card", "wave", "village", "character"];
 
     menuList.forEach((menu) => {
         const li = document.createElement("li");
