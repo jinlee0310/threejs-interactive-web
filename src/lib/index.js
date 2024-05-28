@@ -11,3 +11,5 @@ export const handleResize = (renderer, camera, scene, controls) => {
 
     controls.update();
 };
+
+export const $ = (el) => document.createElement(el);

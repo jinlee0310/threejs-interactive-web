@@ -1,6 +1,7 @@
 body {
     margin: 0;
     padding: 0;
+    font-family: Avenir;
 }
 
 * {
@@ -52,4 +53,20 @@ nav > ul {
     width: 30px;
     height: 30px;
     border-radius: 50%;
+}
+
+.wrapper {
+    position: relative;
+    min-height: 1000vh;
+}
+
+header {
+    text-align: center;
+    padding: 24px 0;
+}
+
+#canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
 }
