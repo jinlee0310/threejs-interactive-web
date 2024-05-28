@@ -1,6 +1,7 @@
 import { renderCard } from "./container/Card";
 import { renderCube } from "./container/Cube";
 import { renderText } from "./container/Text";
+import renderVillage from "./container/Village";
 import renderWave from "./container/Wave";
 
 window.addEventListener("load", () => {
@@ -23,6 +24,9 @@ const init = () => {
         case "/wave":
             renderWave();
             break;
+        case "/village":
+            renderVillage();
+            break;
         case "/":
         default:
             renderNav();
@@ -34,7 +38,7 @@ const renderNav = () => {
     const nav = document.createElement("nav");
     const ul = document.createElement("ul");
 
-    const menuList = ["cube", "text", "card", "wave"];
+    const menuList = ["cube", "text", "card", "wave", "village"];
 
     menuList.forEach((menu) => {
         const li = document.createElement("li");
