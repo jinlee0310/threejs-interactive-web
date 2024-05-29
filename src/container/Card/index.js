@@ -4,17 +4,22 @@ import { handleResize } from "../../lib";
 import Card from "./Card";
 // import Gui from "lil-gui";
 import { gsap } from "gsap";
+import Header from "./Header";
 
 const COLORS = ["#ff6e6e", "#31e0c1", "#006fff", "#ffd732"];
 
 export function renderCard() {
     // const gui = new Gui();
+    const header = new Header();
+
     const renderer = new Three.WebGLRenderer({
         antialias: true,
         alpha: true,
     });
 
     renderer.setSize(window.innerWidth, window.innerHeight);
+
+    header.render();
 
     document.body.appendChild(renderer.domElement);
 
