@@ -2,11 +2,38 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { convertLatLngToPos } from "../../lib";
 import { getGradientCanvas } from "../../lib";
+import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
+// import { FilmPass } from "three/examples/jsm/postprocessing/FilmPass.js";
+// import { GlitchPass } from "three/examples/jsm/postprocessing/GlitchPass.js";
+// import { AfterimagePass } from "three/examples/jsm/postprocessing/AfterimagePass.js";
+// import { HalftonePass } from "three/examples/jsm/postprocessing/HalftonePass.js";
+// import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
+// import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass.js";
+import { SMAAPass } from "three/examples/jsm/postprocessing/SMAAPass.js";
+import { GammaCorrectionShader } from "three/examples/jsm/shaders/GammaCorrectionShader.js";
+import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
 
 export default function renderEarth() {
+    const canvasSize = {
+        width: window.innerWidth,
+        height: window.innerHeight,
+    };
+
     const renderer = new THREE.WebGLRenderer({
         alpha: true,
     });
+
+    // anti aliasing
+    const renderTarget = new THREE.WebGLRenderTarget(
+        canvasSize.width,
+        canvasSize.height,
+        {
+            samples: 2,
+        }
+    );
+
+    const effectComposer = new EffectComposer(renderer, renderTarget);
 
     const textureLoader = new THREE.TextureLoader();
     const cubeTextureLoader = new THREE.CubeTextureLoader().setPath(
@@ -22,11 +49,6 @@ export default function renderEarth() {
     ]);
 
     document.body.appendChild(renderer.domElement);
-
-    const canvasSize = {
-        width: window.innerWidth,
-        height: window.innerHeight,
-    };
 
     const scene = new THREE.Scene();
     scene.background = environmentMap;
@@ -50,6 +72,53 @@ export default function renderEarth() {
         scene.add(light);
     };
 
+    const addPostEffects = (obj) => {
+        const { earthGroup } = obj;
+        const renderPass = new RenderPass(scene, camera);
+        effectComposer.addPass(renderPass); // render 정보 등록
+
+        // const filmPass = new FilmPass(1); // 자글자글한 효과
+        // effectComposer.addPass(filmPass);
+        // const glitchPass = new GlitchPass(); // glitch 효과
+        // effectComposer.addPass(glitchPass);
+        // const afterimagePass = new AfterimagePass(0.98); // 잔상 효과
+        // effectComposer.addPass(afterimagePass);
+        // const halftonePass = new HalftonePass( // 팝아트 효과
+        //     canvasSize.width,
+        //     canvasSize.height,
+        //     {
+        //         radius: 10,
+        //         shape: 1,
+        //         scatter: 0,
+        //         blending: 1,
+        //     }
+        // );
+        // effectComposer.addPass(halftonePass);
+        // const unrealBloomPass = new UnrealBloomPass(
+        //     new THREE.Vector2(canvasSize.width, canvasSize.height)
+        // );
+        // unrealBloomPass.strength = 1;
+        // unrealBloomPass.threshold = 0.1;
+        // unrealBloomPass.radius = 1.5;
+        // effectComposer.addPass(unrealBloomPass);
+        // const outlinePass = new OutlinePass(
+        //     new THREE.Vector2(canvasSize.width, canvasSize.height),
+        //     scene,
+        //     camera
+        // );
+        // outlinePass.selectedObjects = [...earthGroup.children];
+        // outlinePass.edgeStrength = 5;
+        // outlinePass.edgeGlow = 5;
+        // outlinePass.pulsePeriod = 5;
+        // effectComposer.addPass(outlinePass);
+
+        const shaderPass = new ShaderPass(GammaCorrectionShader); // 렌더러를 중간에 탈취해서 포스트 프로세싱 과정을 거쳤기 때문에 outputColorSpace가 잘 동작하지 않아서 추가해줌
+        effectComposer.addPass(shaderPass);
+
+        const smaaPass = new SMAAPass(); // SMAA anti aliasing
+        effectComposer.addPass(smaaPass);
+    };
+
     const createStar = (count = 500) => {
         const positions = new Float32Array(count * 3);
         for (let i = 0; i < count; i++) {
@@ -65,7 +134,7 @@ export default function renderEarth() {
         );
 
         const particleMaterial = new THREE.PointsMaterial({
-            size: 0.1,
+            size: 0.01,
             transparent: true,
             depthWrite: false,
             map: textureLoader.load("./assets/images/particle.png"),
@@ -186,6 +255,8 @@ export default function renderEarth() {
 
         renderer.setSize(canvasSize.width, canvasSize.height);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        effectComposer.setSize(canvasSize.width, canvasSize.height);
     };
 
     const addEvent = () => {
@@ -201,15 +272,19 @@ export default function renderEarth() {
         star.rotation.x += 0.0003;
         star.rotation.y += 0.0001;
 
-        renderer.render(scene, camera);
+        // renderer.render(scene, camera); // effectComposer 위임
+        effectComposer.render();
+
         requestAnimationFrame(() => {
             draw(obj);
         });
     };
 
     const initialize = () => {
-        addLigth();
         const obj = create();
+
+        addLigth();
+        addPostEffects(obj);
         addEvent();
         resize();
         draw(obj);
