@@ -40,10 +40,19 @@ nav {
 }
 
 nav ul {
-    display: flex;
-    justify-content: space-evenly;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
     list-style: none;
     padding: 24px 0;
+    gap: 10px;
+}
+nav li {
+    text-align: center;
+    padding: 5px 0;
+}
+
+nav a:hover {
+    color: #fefefe;
 }
 
 #card-header {
