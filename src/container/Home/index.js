@@ -50,6 +50,7 @@ export default function renderHome() {
     const createObject = () => {
         gltfLoader.load("./assets/models/home/home-modeling.glb", (gltf) => {
             gltf.scene.scale.set(0.25, 0.25, 0.25);
+            gltf.scene.position.set(0, -0.3, 0);
             scene.add(gltf.scene);
 
             scene.traverse((child) => {
@@ -58,17 +59,17 @@ export default function renderHome() {
                     const pointLight = new THREE.PointLight(0xffff00, 0.3);
                     pointLight.scale.set(0.001, 0.001, 0.001);
 
-                    const pointLightHelper = new THREE.PointLightHelper(
-                        pointLight,
-                        100
-                    );
-
                     pointLight.position.set(
                         child.position.x * 0.25,
-                        child.position.y * 0.25 + 0.4,
+                        child.position.y * 0.25 + 0.1,
                         child.position.z * 0.25
                     );
                     scene.add(pointLight);
+
+                    // const pointLightHelper = new THREE.PointLightHelper(
+                    //     pointLight,
+                    //     100
+                    // );
                     // scene.add(pointLightHelper);
                 }
                 if (child.name === "monitorDisplay") {
