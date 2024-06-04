@@ -7,5 +7,7 @@ export const menuList = [
     "character",
     "earth",
     "earth2",
+    "earth3",
     "desk",
+    "home",
 ];
