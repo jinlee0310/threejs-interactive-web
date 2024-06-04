@@ -11,4 +11,5 @@ export const menuList = [
     "shaderPractice2",
     "desk",
     "home",
+    "starlightEarth",
 ];
