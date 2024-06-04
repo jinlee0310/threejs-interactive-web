@@ -8,6 +8,7 @@ export const menuList = [
     "earth",
     "earth2",
     "shaderPractice",
+    "shaderPractice2",
     "desk",
     "home",
 ];
