@@ -115,7 +115,7 @@ export default async function renderWave() {
 
     scene.add(ship);
 
-    const pointLight = new Three.PointLight(0xffffff, 1000);
+    const pointLight = new Three.PointLight(0xffffff, 1);
 
     pointLight.castShadow = true;
     pointLight.shadow.mapSize.width = 1024;
