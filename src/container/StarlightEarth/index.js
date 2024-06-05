@@ -16,6 +16,8 @@ export default function renderStarlightEarth() {
 
     document.body.appendChild(renderer.domElement);
 
+    const clock = new THREE.Clock();
+
     const textureLoader = new THREE.TextureLoader();
 
     const canvasSize = {
@@ -66,15 +68,17 @@ export default function renderStarlightEarth() {
                         "./assets/texture/2k_earth_specular_map.png"
                     ),
                 },
+                uTime: { value: 0 },
             },
             vertexShader: pointsVertexShader,
             fragmentShader: pointsFragmentShader,
             side: THREE.DoubleSide,
             transparent: true,
             depthWrite: false,
+            blending: THREE.AdditiveBlending,
         });
 
-        const geometry = new THREE.IcosahedronGeometry(0.8, 20, 20);
+        const geometry = new THREE.IcosahedronGeometry(0.8, 30, 30);
         geometry.rotateY(-Math.PI);
 
         const mesh = new THREE.Points(geometry, material);
@@ -105,7 +109,7 @@ export default function renderStarlightEarth() {
         const earthGlow = createEarthGlow();
 
         scene.add(earth, earthPoints, earthGlow);
-        return { earthGlow };
+        return { earthGlow, earthPoints, earth };
     };
 
     const resize = () => {
@@ -124,14 +128,21 @@ export default function renderStarlightEarth() {
     };
 
     const draw = (obj) => {
-        const { earthGlow } = obj;
+        const { earthGlow, earthPoints, earth } = obj;
 
         controls.update();
         renderer.render(scene, camera);
 
+        // console.log(camera.position.z);
+
         earthGlow.material.uniforms.uZoom.value = controls.target.distanceTo(
             controls.object.position
         );
+        earthPoints.material.uniforms.uTime.value = clock.getElapsedTime();
+        earth.rotation.x += 0.0005;
+        earth.rotation.y += 0.0005;
+        earthPoints.rotation.x += 0.0005;
+        earthPoints.rotation.y += 0.0005;
 
         requestAnimationFrame(() => {
             draw(obj);

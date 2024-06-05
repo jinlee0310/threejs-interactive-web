@@ -1,6 +1,8 @@
 uniform sampler2D uTexture;
+uniform float uTime;
 
 varying vec2 vUv;
+varying float vDistance;
 
 float circle (vec2 coord, float r){
     float fromCenter = length(coord - 0.5);
@@ -8,23 +10,23 @@ float circle (vec2 coord, float r){
     return strength;
 }
 
+float random(vec2 uv){
+    return fract(dot(uv, vec2(12.9898, 78.233)));
+}
+
 void main()
 {
-    float strength=circle(gl_PointCoord.xy, 0.01);
-
     vec4 map = texture2D(uTexture, vUv);
     vec3 col = 1.0 - map.rgb;
-    float alpha = col.r * strength;
 
-    float x = fract(vUv.x * 100.0);
-    float y = fract(vUv.y * 100.0);
+    float strength = circle(gl_PointCoord.xy, 0.03);
+    float alpha = col.r * strength * vDistance;
+    float randomNumber = random(vUv + uTime / 400.0);
 
-    float dist = length(vec2(x, y) - 0.5);
+    vec3 greenColor = vec3(0.08, 0.356, 0.196);
+    vec3 deepGreenColor = vec3(0.036, 0.123, 0.057);
 
-    vec3 greenColor = vec3(0.0, 1.0, 0.0);
+    vec3 finalColor = mix(greenColor, deepGreenColor, randomNumber);
 
-    vec3 finalCol = mix(greenColor, vec3(0.0), step(0.1, dist));
-    finalCol.g += map.r * 2.0;
-
-    gl_FragColor = vec4(greenColor,alpha);
+    gl_FragColor = vec4(finalColor, alpha);
 }
