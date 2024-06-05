@@ -30,7 +30,7 @@ export default function renderStarlightEarth() {
         0.1,
         100
     );
-    camera.position.set(0, 0, 1.5);
+    camera.position.set(0, 0, 1.8);
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
@@ -38,7 +38,6 @@ export default function renderStarlightEarth() {
 
     const createEarth = () => {
         const material = new THREE.ShaderMaterial({
-            wireframe: false,
             uniforms: {
                 uTexture: {
                     value: textureLoader.load(
@@ -61,7 +60,6 @@ export default function renderStarlightEarth() {
 
     const createEarthPoints = () => {
         const material = new THREE.ShaderMaterial({
-            wireframe: true,
             uniforms: {
                 uTexture: {
                     value: textureLoader.load(
@@ -84,11 +82,30 @@ export default function renderStarlightEarth() {
         return mesh;
     };
 
+    const createEarthGlow = () => {
+        const glowMaterial = new THREE.ShaderMaterial({
+            uniforms: {
+                uZoom: { value: 1 },
+            },
+            vertexShader: glowVertexShader,
+            fragmentShader: glowFragmentShader,
+            side: THREE.BackSide,
+            transparent: true,
+        });
+
+        const glowGeometry = new THREE.SphereGeometry(1, 40, 40);
+        const glow = new THREE.Mesh(glowGeometry, glowMaterial);
+
+        return glow;
+    };
+
     const create = () => {
         const earth = createEarth();
         const earthPoints = createEarthPoints();
+        const earthGlow = createEarthGlow();
 
-        scene.add(earth, earthPoints);
+        scene.add(earth, earthPoints, earthGlow);
+        return { earthGlow };
     };
 
     const resize = () => {
@@ -106,19 +123,26 @@ export default function renderStarlightEarth() {
         window.addEventListener("resize", resize);
     };
 
-    const draw = () => {
+    const draw = (obj) => {
+        const { earthGlow } = obj;
+
         controls.update();
         renderer.render(scene, camera);
+
+        earthGlow.material.uniforms.uZoom.value = controls.target.distanceTo(
+            controls.object.position
+        );
+
         requestAnimationFrame(() => {
-            draw();
+            draw(obj);
         });
     };
 
     const initialize = () => {
-        create();
+        const obj = create();
         addEvent();
         resize();
-        draw();
+        draw(obj);
     };
 
     initialize();
