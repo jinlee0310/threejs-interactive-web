@@ -1,17 +1,22 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import vertexShader from "./shaders/vertex.glsl";
-import fragmentShader from "./shaders/fragment.glsl";
+import vertexShader from "./shaders/earth/vertex.glsl";
+import fragmentShader from "./shaders/earth/fragment.glsl";
+import pointsVertexShader from "./shaders/earthPoints/vertex.glsl";
+import pointsFragmentShader from "./shaders/earthPoints/fragment.glsl";
+import glowVertexShader from "./shaders/earthGlow/vertex.glsl";
+import glowFragmentShader from "./shaders/earthGlow/fragment.glsl";
 
 export default function renderStarlightEarth() {
     const renderer = new THREE.WebGLRenderer({
         alpha: true,
     });
-    renderer.setClearColor(0x333333, 1);
+    renderer.setClearColor(0x000000, 1);
+    renderer.domElement.id = "starlight-earth-canvas";
 
-    const container = document.querySelector("#container");
+    document.body.appendChild(renderer.domElement);
 
-    container.appendChild(renderer.domElement);
+    const textureLoader = new THREE.TextureLoader();
 
     const canvasSize = {
         width: window.innerWidth,
@@ -25,24 +30,65 @@ export default function renderStarlightEarth() {
         0.1,
         100
     );
-    camera.position.set(0, 0, 2);
+    camera.position.set(0, 0, 1.5);
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.1;
 
-    const createObject = () => {
-        const material = new THREE.RawShaderMaterial({
-            // wireframe: true,
+    const createEarth = () => {
+        const material = new THREE.ShaderMaterial({
+            wireframe: false,
+            uniforms: {
+                uTexture: {
+                    value: textureLoader.load(
+                        "./assets/texture/2k_earth_specular_map.png"
+                    ),
+                },
+            },
             vertexShader: vertexShader,
             fragmentShader: fragmentShader,
             side: THREE.DoubleSide,
+            transparent: true,
+            depthWrite: false,
         });
-        const geometry = new THREE.PlaneGeometry(1, 1, 16, 16);
 
+        const geometry = new THREE.SphereGeometry(0.8, 30, 30);
         const mesh = new THREE.Mesh(geometry, material);
 
-        scene.add(mesh);
+        return mesh;
+    };
+
+    const createEarthPoints = () => {
+        const material = new THREE.ShaderMaterial({
+            wireframe: true,
+            uniforms: {
+                uTexture: {
+                    value: textureLoader.load(
+                        "./assets/texture/2k_earth_specular_map.png"
+                    ),
+                },
+            },
+            vertexShader: pointsVertexShader,
+            fragmentShader: pointsFragmentShader,
+            side: THREE.DoubleSide,
+            transparent: true,
+            depthWrite: false,
+        });
+
+        const geometry = new THREE.IcosahedronGeometry(0.8, 20, 20);
+        geometry.rotateY(-Math.PI);
+
+        const mesh = new THREE.Points(geometry, material);
+
+        return mesh;
+    };
+
+    const create = () => {
+        const earth = createEarth();
+        const earthPoints = createEarthPoints();
+
+        scene.add(earth, earthPoints);
     };
 
     const resize = () => {
@@ -69,7 +115,7 @@ export default function renderStarlightEarth() {
     };
 
     const initialize = () => {
-        createObject();
+        create();
         addEvent();
         resize();
         draw();
