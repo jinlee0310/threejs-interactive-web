@@ -170,9 +170,7 @@ export default async function renderCharacter() {
         requestAnimationFrame(render);
     }
 
-    window.addEventListener("resize", () =>
-        handleResize(renderer, camera, scene, controls)
-    );
+    window.addEventListener("resize", () => handleResize(renderer, camera));
 
     function handlePointerDown(e) {
         pointer.x = (e.clientX / window.innerWidth - 0.5) * 2;

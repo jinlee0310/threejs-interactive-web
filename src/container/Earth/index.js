@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { convertLatLngToPos } from "../../lib";
+import { convertLatLngToPos, handleResize } from "../../lib";
 import { getGradientCanvas } from "../../lib";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
@@ -247,14 +247,7 @@ export default function renderEarth() {
     };
 
     const resize = () => {
-        canvasSize.width = window.innerWidth;
-        canvasSize.height = window.innerHeight;
-
-        camera.aspect = canvasSize.width / canvasSize.height;
-        camera.updateProjectionMatrix();
-
-        renderer.setSize(canvasSize.width, canvasSize.height);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        handleResize(renderer, camera);
 
         effectComposer.setSize(canvasSize.width, canvasSize.height);
     };

@@ -6,6 +6,7 @@ import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass";
 import GUI from "lil-gui";
+import { handleResize } from "../../lib";
 
 export async function renderText() {
     const gui = new GUI();
@@ -151,15 +152,5 @@ export async function renderText() {
         requestAnimationFrame(render);
     }
 
-    function handleResize() {
-        camera.aspect = window.innerWidth / window.innerHeight;
-
-        camera.updateProjectionMatrix();
-
-        composer.setSize(window.innerWidth, window.innerHeight);
-
-        composer.render(scene, camera);
-    }
-
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", () => handleResize(renderer, camera));
 }

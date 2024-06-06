@@ -1,15 +1,11 @@
 export const initThree = () => {};
 
-export const handleResize = (renderer, camera, scene, controls) => {
+export const handleResize = (renderer, camera) => {
     camera.aspect = window.innerWidth / window.innerHeight;
-
     camera.updateProjectionMatrix();
 
     renderer.setSize(window.innerWidth, window.innerHeight);
-
-    renderer.render(scene, camera);
-
-    controls.update();
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 };
 
 export const $ = (el) => document.createElement(el);
@@ -38,3 +34,9 @@ export function getGradientCanvas(startColor, endColor) {
 
     return canvas;
 }
+
+export const controlEnv = (callback) => {
+    if (import.meta.env.VITE === "production") {
+        callback();
+    }
+};

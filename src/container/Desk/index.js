@@ -2,6 +2,7 @@ import GUI from "lil-gui";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { handleResize } from "../../lib";
 
 export default function renderDesk() {
     const canvasSize = {
@@ -72,19 +73,8 @@ export default function renderDesk() {
         scene.add(directionalLight);
     };
 
-    const resize = () => {
-        canvasSize.width = window.innerWidth;
-        canvasSize.height = window.innerHeight;
-
-        camera.aspect = canvasSize.width / canvasSize.height;
-        camera.updateProjectionMatrix();
-
-        renderer.setSize(canvasSize.width, canvasSize.height);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    };
-
     const addEvent = () => {
-        window.addEventListener("resize", resize);
+        window.addEventListener("resize", () => handleResize(renderer, camera));
     };
 
     const draw = () => {
@@ -100,7 +90,7 @@ export default function renderDesk() {
         createObject();
         createLight();
         addEvent();
-        resize();
+        handleResize(renderer, camera);
         draw();
     };
 

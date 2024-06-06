@@ -101,9 +101,7 @@ export function renderCard() {
         requestAnimationFrame(render);
     }
 
-    window.addEventListener("resize", () =>
-        handleResize(renderer, camera, scene, controls)
-    );
+    window.addEventListener("resize", () => handleResize(renderer, camera));
 
     renderButtons(card, gsap);
 }

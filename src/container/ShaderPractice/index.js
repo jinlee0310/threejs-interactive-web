@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import vertexShader from "./shaders/vertex.glsl";
 import fragmentShader from "./shaders/fragment.glsl";
+import { handleResize } from "../../lib";
 
 export default function shaderPractice() {
     const canvasSize = {
@@ -86,26 +87,15 @@ export default function shaderPractice() {
         });
     };
 
-    const resize = () => {
-        canvasSize.width = window.innerWidth;
-        canvasSize.height = window.innerHeight;
-
-        camera.aspect = canvasSize.width / canvasSize.height;
-        camera.updateProjectionMatrix();
-
-        renderer.setSize(canvasSize.width, canvasSize.height);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio), 2);
-    };
-
     const addEvent = () => {
-        window.addEventListener("resize", resize);
+        window.addEventListener("resize", () => handleResize(renderer, camera));
     };
 
     const init = () => {
         const mesh = createMesh();
         draw(mesh);
         addEvent();
-        resize();
+        handleResize(renderer, camera);
     };
 
     init();

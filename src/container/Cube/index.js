@@ -2,8 +2,11 @@ import * as Three from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import GUI from "lil-gui";
 import { handleResize } from "../../lib";
+import renderHamburger from "../../layouts/Hamburger";
 
 export function renderCube() {
+    renderHamburger();
+
     const options = {
         color: 0x00ffff,
     };
@@ -83,9 +86,7 @@ export function renderCube() {
         requestAnimationFrame(render);
     }
 
-    window.addEventListener("resize", () =>
-        handleResize(renderer, camera, scene, controls)
-    );
+    window.addEventListener("resize", () => handleResize(renderer, camera));
 
     const gui = new GUI();
 

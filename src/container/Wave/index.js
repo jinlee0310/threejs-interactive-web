@@ -155,9 +155,7 @@ export default async function renderWave() {
         requestAnimationFrame(render);
     }
 
-    window.addEventListener("resize", () =>
-        handleResize(renderer, camera, scene, controls)
-    );
+    window.addEventListener("resize", () => handleResize(renderer, camera));
 
     // gsap.to(waveMaterial, {
     // color: "#4268ff", // hex code를 직접 넣을 수 없음

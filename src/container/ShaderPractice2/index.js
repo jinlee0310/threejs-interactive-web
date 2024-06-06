@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import vertexShader from "./shaders/vertex.glsl";
 import fragmentShader from "./shaders/fragment.glsl";
+import { handleResize } from "../../lib";
 
 export default function ShaderPractice2() {
     const renderer = new THREE.WebGLRenderer({
@@ -44,19 +45,8 @@ export default function ShaderPractice2() {
         scene.add(mesh);
     };
 
-    const resize = () => {
-        canvasSize.width = window.innerWidth;
-        canvasSize.height = window.innerHeight;
-
-        camera.aspect = canvasSize.width / canvasSize.height;
-        camera.updateProjectionMatrix();
-
-        renderer.setSize(canvasSize.width, canvasSize.height);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    };
-
     const addEvent = () => {
-        window.addEventListener("resize", resize);
+        window.addEventListener("resize", () => handleResize(renderer, camera));
     };
 
     const draw = () => {
@@ -70,7 +60,7 @@ export default function ShaderPractice2() {
     const initialize = () => {
         createObject();
         addEvent();
-        resize();
+        handleResize(renderer, camera);
         draw();
     };
 

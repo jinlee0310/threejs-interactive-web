@@ -114,7 +114,5 @@ export default function renderVillage() {
         requestAnimationFrame(render);
     }
 
-    window.addEventListener("resize", () =>
-        handleResize(renderer, camera, scene, controls)
-    );
+    window.addEventListener("resize", () => handleResize(renderer, camera));
 }

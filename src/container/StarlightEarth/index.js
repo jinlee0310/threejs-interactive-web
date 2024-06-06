@@ -6,6 +6,7 @@ import pointsVertexShader from "./shaders/earthPoints/vertex.glsl";
 import pointsFragmentShader from "./shaders/earthPoints/fragment.glsl";
 import glowVertexShader from "./shaders/earthGlow/vertex.glsl";
 import glowFragmentShader from "./shaders/earthGlow/fragment.glsl";
+import { handleResize } from "../../lib";
 
 export default function renderStarlightEarth() {
     const renderer = new THREE.WebGLRenderer({
@@ -112,19 +113,8 @@ export default function renderStarlightEarth() {
         return { earthGlow, earthPoints, earth };
     };
 
-    const resize = () => {
-        canvasSize.width = window.innerWidth;
-        canvasSize.height = window.innerHeight;
-
-        camera.aspect = canvasSize.width / canvasSize.height;
-        camera.updateProjectionMatrix();
-
-        renderer.setSize(canvasSize.width, canvasSize.height);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    };
-
     const addEvent = () => {
-        window.addEventListener("resize", resize);
+        window.addEventListener("resize", () => handleResize(renderer, camera));
     };
 
     const draw = (obj) => {
@@ -152,7 +142,7 @@ export default function renderStarlightEarth() {
     const initialize = () => {
         const obj = create();
         addEvent();
-        resize();
+        handleResize(renderer, camera);
         draw(obj);
     };
 

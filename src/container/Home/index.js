@@ -4,6 +4,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import monitorDisplayVertexShader from "./shaders/vertex.glsl";
 import monitorDisplayFragmentShader from "./shaders/fragment.glsl";
+import { handleResize } from "../../lib";
 
 export default function renderHome() {
     const canvasSize = {
@@ -101,16 +102,10 @@ export default function renderHome() {
     };
 
     const resize = () => {
-        canvasSize.width = window.innerWidth;
-        canvasSize.height = window.innerHeight;
+        handleResize(renderer, camera);
 
-        const aspect = canvasSize.width / canvasSize.height;
         camera.left = -(aspect * viewSize) / 2;
         camera.right = (aspect * viewSize) / 2;
-        camera.updateProjectionMatrix();
-
-        renderer.setSize(canvasSize.width, canvasSize.height);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     };
 
     const addEvent = () => {
