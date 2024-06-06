@@ -6,5 +6,11 @@ export const BASIC_MENU = [
     "Village",
     "Character",
 ];
-export const ADVANCED_MENU = ["Earth", "Earth2", "StarlightEarth"];
+export const ADVANCED_MENU = [
+    "Earth",
+    "Earth2",
+    "StarlightEarth",
+    "Desk",
+    "Home",
+];
 export const PRACTICE_MENU = ["Shader", "Shader2"];
