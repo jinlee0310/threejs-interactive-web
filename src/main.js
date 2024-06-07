@@ -12,6 +12,7 @@ import { renderText } from "./container/Text";
 import renderVillage from "./container/Village";
 import renderWave from "./container/Wave";
 import renderStarlightEarth from "./container/StarlightEarth";
+import renderPhysicsPractice from "./container/PhysicsPractice";
 
 window.addEventListener("load", () => {
     init();
@@ -50,6 +51,9 @@ const init = () => {
             break;
         case "/Shader2":
             shaderPractice2();
+            break;
+        case "/Physics":
+            renderPhysicsPractice();
             break;
         case "/Desk":
             renderDesk();

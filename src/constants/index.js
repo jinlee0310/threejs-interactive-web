@@ -13,4 +13,4 @@ export const ADVANCED_MENU = [
     "Desk",
     "Home",
 ];
-export const PRACTICE_MENU = ["Shader", "Shader2"];
+export const PRACTICE_MENU = ["Shader", "Shader2", "Physics"];
