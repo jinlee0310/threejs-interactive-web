@@ -1,13 +1,13 @@
 import * as THREE from "three";
 import SWorld from "../../../../core/World";
 import SPhysics from "../../../../core/Physics";
-import { Floor } from "../models/Floor";
-import { Light } from "../tools/Light";
-import { Player } from "../models/Player";
-import { Barricade } from "../models/Barricade";
-import { Roller } from "../models/Roller";
-import { Goal } from "../models/Goal";
-import { Timer } from "../models/Timer";
+import { Floor } from "./models/Floor";
+import { Light } from "./tools/Light";
+import { Player } from "./models/Player";
+import { Barricade } from "./models/Barricade";
+import { Roller } from "./models/Roller";
+import { Goal } from "./models/Goal";
+import { Timer } from "./models/Timer";
 import SEventEmitter from "../../../../lib/EventEmitter";
 
 export class Game {

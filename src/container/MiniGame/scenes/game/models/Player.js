@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import * as CANNON from "cannon-es";
-import SPhysics from "../../../../core/Physics";
+import SPhysics from "../../../../../core/Physics";
 
 export class Player extends THREE.Mesh {
     name = "player";

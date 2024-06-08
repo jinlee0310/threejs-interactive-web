@@ -1,6 +1,6 @@
-import { $ } from "../../../../lib";
+import { $ } from "../../../../../lib";
 import * as THREE from "three";
-import SEventEmitter from "../../../../lib/EventEmitter";
+import SEventEmitter from "../../../../../lib/EventEmitter";
 
 export class Timer extends THREE.Clock {
     isEnded = false;
