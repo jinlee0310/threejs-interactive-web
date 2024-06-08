@@ -13,6 +13,7 @@ import renderVillage from "./container/Village";
 import renderWave from "./container/Wave";
 import renderStarlightEarth from "./container/StarlightEarth";
 import renderPhysicsPractice from "./container/PhysicsPractice";
+import renderMiniGame from "./container/MiniGame";
 
 window.addEventListener("load", () => {
     init();
@@ -57,6 +58,9 @@ const init = () => {
             break;
         case "/Desk":
             renderDesk();
+            break;
+        case "/MiniGame":
+            renderMiniGame();
             break;
         case "/Home":
             renderHome();

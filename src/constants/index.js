@@ -12,5 +12,6 @@ export const ADVANCED_MENU = [
     "StarlightEarth",
     "Desk",
     "Home",
+    "MiniGame",
 ];
 export const PRACTICE_MENU = ["Shader", "Shader2", "Physics"];

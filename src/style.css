@@ -35,6 +35,14 @@ a {
     cursor: pointer;
 }
 
+.hidden {
+    display: none;
+}
+
+#hamburger-btn {
+    z-index: 1;
+}
+
 nav {
     position: absolute;
     width: 100%;
@@ -161,4 +169,17 @@ header {
 
 #starlight-earth-canvas {
     background-color: #000;
+}
+
+.time {
+    position: fixed;
+    top: 20px;
+    left: 40px;
+    color: #fff;
+    font-size: 36px;
+}
+
+.time h1 {
+    margin: 0;
+    padding: 0;
 }
