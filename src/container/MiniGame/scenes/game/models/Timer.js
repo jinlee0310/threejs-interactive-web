@@ -19,6 +19,10 @@ export class Timer extends THREE.Clock {
 
         this.startAt = startAt;
         this.eventEmitter = SEventEmitter;
+        this.eventEmitter.onWin(() => {
+            this.isEnded = true;
+            this.$timer.innerText = "";
+        });
     }
 
     update() {

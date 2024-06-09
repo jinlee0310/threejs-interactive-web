@@ -42,6 +42,10 @@ class EventEmitter {
     onChangeScene(callbackFn) {
         this.eventEmitter.on("changeScene", callbackFn);
     }
+
+    clear(event) {
+        this.eventEmitter.removeListener(event);
+    }
 }
 
 const SEventEmitter = new EventEmitter();

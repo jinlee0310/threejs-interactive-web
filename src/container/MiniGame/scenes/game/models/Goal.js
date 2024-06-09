@@ -31,7 +31,10 @@ class PhysicsGoal extends CANNON.Body {
         super({ shape, material, mass: 0, position });
         this.eventEmitter = SEventEmitter;
         this.eventEmitter.onWin(() => {
-            this.eventEmitter.changeScene("home");
+            setTimeout(() => {
+                this.eventEmitter.clear("win");
+                this.eventEmitter.changeScene("home");
+            }, 0);
         });
     }
 }
