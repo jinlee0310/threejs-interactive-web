@@ -19,6 +19,14 @@ class EventEmitter {
         this.eventEmitter.on("lose", callbackFn);
     }
 
+    win() {
+        this.eventEmitter.emit("win");
+    }
+
+    onWin(callbackFn) {
+        this.eventEmitter.on("win", callbackFn);
+    }
+
     enter() {
         this.eventEmitter.emit("enter");
     }

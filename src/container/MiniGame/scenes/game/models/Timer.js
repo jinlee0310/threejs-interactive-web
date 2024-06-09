@@ -32,6 +32,7 @@ export class Timer extends THREE.Clock {
         if (this.currentTime === 0) {
             this.isEnded = true;
             this.eventEmitter.lose();
+            this.$timer.innerText = "";
         }
     }
 }

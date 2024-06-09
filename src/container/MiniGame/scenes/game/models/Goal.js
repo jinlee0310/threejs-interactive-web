@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import * as CANNON from "cannon-es";
+import SEventEmitter from "../../../../../lib/EventEmitter";
 
 export class Goal extends THREE.Mesh {
     name = "goal";
@@ -28,5 +29,9 @@ class PhysicsGoal extends CANNON.Body {
         const material = new CANNON.Material();
 
         super({ shape, material, mass: 0, position });
+        this.eventEmitter = SEventEmitter;
+        this.eventEmitter.onWin(() => {
+            this.eventEmitter.changeScene("home");
+        });
     }
 }
