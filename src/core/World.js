@@ -36,8 +36,8 @@ class World {
         this.renderer.resize(); // renderer size, 픽셀 수 변경
     }
 
-    update(player) {
-        this.camera.update(player);
+    update(player, mode) {
+        this.camera.update(player, mode);
         this.renderer.update();
     }
 }

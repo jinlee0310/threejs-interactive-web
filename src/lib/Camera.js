@@ -10,7 +10,8 @@ export class Camera extends THREE.PerspectiveCamera {
         super(75, world.sizer.width / world.sizer.height, 0.1, 100);
         this.world = world;
         this.domElement = this.world.domElement;
-        this.position.set(0, 2, 5);
+        this.position.set(0, 20, 15);
+        this.rotation.x = -Math.PI / 3;
 
         this.addControls();
     }
@@ -26,9 +27,18 @@ export class Camera extends THREE.PerspectiveCamera {
         this.updateProjectionMatrix();
     }
 
-    update({ position }) {
-        this.rotation.x = -0.6;
-        this.position.set(position.x, position.y + 2, position.z + 2.3);
-        // this.controls.update();
+    update({ position }, mode) {
+        if (!position) return;
+
+        switch (mode) {
+            case "near":
+                this.rotation.x = -0.6;
+                this.position.set(position.x, position.y + 2, position.z + 2.3);
+                break;
+            case "far":
+                this.rotation.x = -Math.PI / 3;
+                this.position.set(position.x, position.y + 20, position.z + 15);
+                break;
+        }
     }
 }

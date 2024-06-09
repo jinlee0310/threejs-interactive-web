@@ -11,7 +11,10 @@ import { Timer } from "./models/Timer";
 import SEventEmitter from "../../../../lib/EventEmitter";
 
 export class Game {
-    constructor() {
+    raf = 0;
+    initialized = false;
+
+    init() {
         this.world = SWorld;
         this.scene = new THREE.Scene();
         this.world.currentScene = this.scene;
@@ -23,6 +26,8 @@ export class Game {
 
         this.addModels();
         this.eventEmitter.onLose(() => this.reset());
+
+        this.initialized = true;
     }
 
     addModels() {
@@ -64,12 +69,14 @@ export class Game {
     }
 
     play() {
-        this.world.update(this.player);
+        if (!this.initialized) return;
+
+        this.world.update(this.player, "near");
         this.light.update(this.world.camera);
         this.physics.update(...this.models);
         this.timer.update();
 
-        window.requestAnimationFrame(() => {
+        this.raf = window.requestAnimationFrame(() => {
             this.play();
         });
     }
@@ -77,5 +84,22 @@ export class Game {
     reset() {
         this.timer.stop();
         this.models.forEach((model) => model.body.reset?.());
+    }
+
+    dispose() {
+        if (!this.initialized) return;
+
+        this.reset();
+        const children = [...this.scene.children];
+        children.forEach((obj) => {
+            if (obj.isMesh) {
+                obj.geometry.dispose();
+                obj.material.dispose();
+                if (obj.body) this.physics.removeBody(obj.body);
+            }
+            this.scene.remove(obj);
+        });
+        window.cancelAnimationFrame(this.raf);
+        this.initialized = false;
     }
 }

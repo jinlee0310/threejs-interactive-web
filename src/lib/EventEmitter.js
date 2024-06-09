@@ -18,6 +18,22 @@ class EventEmitter {
     onLose(callbackFn) {
         this.eventEmitter.on("lose", callbackFn);
     }
+
+    enter() {
+        this.eventEmitter.emit("enter");
+    }
+
+    onEnter(callbackFn) {
+        this.eventEmitter.on("enter", callbackFn);
+    }
+
+    changeScene(scene) {
+        this.eventEmitter.emit("changeScene", scene);
+    }
+
+    onChangeScene(callbackFn) {
+        this.eventEmitter.on("changeScene", callbackFn);
+    }
 }
 
 const SEventEmitter = new EventEmitter();
