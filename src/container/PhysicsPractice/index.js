@@ -77,14 +77,6 @@ export default function renderPhysicsPractice() {
         world.addBody(body);
     };
 
-    const createMesh = () => {
-        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-        const geometry = new THREE.PlaneGeometry(1, 1);
-        const mesh = new THREE.Mesh(geometry, material);
-
-        scene.add(mesh);
-    };
-
     const createSphere = () => {
         const material = new THREE.MeshStandardMaterial({ color: 0xeeeeee });
         const geometry = new THREE.SphereGeometry(0.3, 30, 30);
@@ -108,10 +100,46 @@ export default function renderPhysicsPractice() {
         worldObjects.push({ mesh, body });
     };
 
+    setInterval(() => {
+        createSphere();
+    }, 1200);
+
+    const BOUNDARY = { x: 0, y: 10, z: 10 };
+
+    const boundaryCheck = () => {
+        scene.children.forEach((child) => {
+            if (
+                Math.abs(child.position.y) > BOUNDARY.y ||
+                Math.abs(child.position.z) > BOUNDARY.z
+            ) {
+                scene.remove(child);
+            }
+        });
+
+        world.bodies.forEach((body) => {
+            if (
+                Math.abs(body.position.y) > BOUNDARY.y ||
+                Math.abs(body.position.z) > BOUNDARY.z
+            ) {
+                world.removeBody(body);
+            }
+        });
+        worldObjects.forEach(({ mesh }, idx) => {
+            if (
+                Math.abs(mesh.position.y) > BOUNDARY.y ||
+                Math.abs(mesh.position.z) > BOUNDARY.z
+            ) {
+                worldObjects.splice(idx, 1);
+            }
+        });
+    };
+
     const draw = () => {
         renderer.render(scene, camera);
 
         controls.update();
+
+        boundaryCheck();
 
         world.step(1 / 60); // fps에 따라 월드의 모든 물체 상태 업데이트
 
@@ -139,7 +167,6 @@ export default function renderPhysicsPractice() {
     };
 
     const initialize = () => {
-        createMesh();
         createLight();
         createFloor();
         createSphere();
