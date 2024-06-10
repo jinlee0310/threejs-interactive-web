@@ -1,4 +1,4 @@
-import * as Three from "three";
+import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { handleResize } from "../../lib";
 import { gsap } from "gsap";
@@ -7,7 +7,7 @@ import renderNav from "./Navigation";
 export default function renderMain() {
     renderNav();
 
-    const renderer = new Three.WebGLRenderer({
+    const renderer = new THREE.WebGLRenderer({
         antialias: true,
         alpha: true,
     });
@@ -17,25 +17,24 @@ export default function renderMain() {
 
     document.body.appendChild(renderer.domElement);
 
-    const scene = new Three.Scene();
+    const scene = new THREE.Scene();
 
-    const camera = new Three.PerspectiveCamera(
-        75,
+    const camera = new THREE.PerspectiveCamera(
+        47,
         window.innerWidth / innerHeight,
         1,
         500
     );
-
-    camera.position.set(0, 0, 50);
+    camera.position.set(0, 0, 80);
 
     const controls = new OrbitControls(camera, renderer.domElement);
 
     const createRing = () => {
-        const ringGeometry = new Three.TorusGeometry(8, 1, 16, 100);
-        const ringMaterial = new Three.MeshStandardMaterial({
+        const ringGeometry = new THREE.TorusGeometry(8, 1, 16, 100);
+        const ringMaterial = new THREE.MeshStandardMaterial({
             color: "#E53935",
         });
-        const ring = new Three.Mesh(ringGeometry, ringMaterial);
+        const ring = new THREE.Mesh(ringGeometry, ringMaterial);
 
         ring.position.set(30, 10, 0);
 
@@ -43,29 +42,30 @@ export default function renderMain() {
     };
 
     const createTriangle = () => {
-        const triangleGeometry = new Three.TorusGeometry(8, 1, 16, 3);
-        const triangleMaterial = new Three.MeshStandardMaterial({
+        const triangleGeometry = new THREE.TorusGeometry(8, 1, 16, 3);
+        const triangleMaterial = new THREE.MeshStandardMaterial({
             color: "#4CAF50",
         });
-        const triangle = new Three.Mesh(triangleGeometry, triangleMaterial);
+        const triangle = new THREE.Mesh(triangleGeometry, triangleMaterial);
 
-        triangle.position.set(-20, 20, 0);
+        triangle.position.set(-30, 20, -5);
 
         return triangle;
     };
 
     const createCube = () => {
-        const geometry = new Three.BoxGeometry(16, 16, 1);
-        const material = new Three.MeshStandardMaterial({ color: "#0e0398" });
-        const cube = new Three.Mesh(geometry, material);
+        const geometry = new THREE.BoxGeometry(16, 16, 1);
+        const material = new THREE.MeshStandardMaterial({ color: "#0e0398" });
+        const cube = new THREE.Mesh(geometry, material);
 
-        cube.position.set(20, -20, 0);
+        cube.rotation.y = -Math.PI / 6;
+        cube.position.set(10, -20, 5);
 
         return cube;
     };
 
     const createLight = () => {
-        const ambientLight = new Three.AmbientLight(0xffffff, 0.8);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
 
         ambientLight.position.set(-5, -5, -5);
 
@@ -84,7 +84,7 @@ export default function renderMain() {
     };
 
     const addAnimation = (obj) => {
-        const { triangle, ring } = obj;
+        const { triangle, ring, cube } = obj;
 
         gsap.to(triangle.rotation, {
             duration: 6,
@@ -99,14 +99,34 @@ export default function renderMain() {
             repeat: -1,
             ease: "none",
         });
+
+        gsap.to(cube.rotation, {
+            duration: 2,
+            repeat: -1,
+            ease: "none",
+            yoyo: true,
+            y: Math.PI / 6,
+        });
     };
 
-    function draw() {
+    function draw(obj) {
+        const { triangle, cube } = obj;
+
+        triangle.position.y += 0.05;
+        if (triangle.position.y > 50) {
+            triangle.position.y = -45;
+        }
+
+        cube.position.x -= 0.03;
+        if (cube.position.x < -80) {
+            cube.position.x = 80;
+        }
+
         renderer.render(scene, camera);
 
         controls.update();
 
-        requestAnimationFrame(draw);
+        requestAnimationFrame(() => draw(obj));
     }
 
     const resize = () => {
@@ -122,7 +142,7 @@ export default function renderMain() {
         addAnimation(obj);
         addEvent();
         resize();
-        draw();
+        draw(obj);
     };
 
     initialize();
