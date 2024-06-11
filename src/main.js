@@ -14,6 +14,7 @@ import renderWave from "./container/Wave";
 import renderStarlightEarth from "./container/StarlightEarth";
 import renderPhysicsPractice from "./container/PhysicsPractice";
 import renderMiniGame from "./container/MiniGame";
+import renderGallery from "./container/Gallery";
 
 window.addEventListener("load", () => {
     init();
@@ -58,6 +59,9 @@ const init = () => {
             break;
         case "/Desk":
             renderDesk();
+            break;
+        case "/Gallery":
+            renderGallery();
             break;
         case "/MiniGame":
             renderMiniGame();

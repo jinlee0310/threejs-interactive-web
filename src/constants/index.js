@@ -10,6 +10,7 @@ export const ADVANCED_MENU = [
     "Earth",
     "Earth2",
     "StarlightEarth",
+    "Gallery",
     "Desk",
     "Home",
     "MiniGame",
