@@ -1,8 +1,11 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { handleResize } from "../../lib";
+import renderHTML from "./renderHTML";
 
 export default function renderGallery() {
+    renderHTML();
+
     const canvasSize = {
         width: window.innerWidth,
         height: window.innerHeight,
@@ -62,5 +65,5 @@ export default function renderGallery() {
         addEvent();
     };
 
-    initialize();
+    // initialize();
 }

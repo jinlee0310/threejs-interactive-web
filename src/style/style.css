@@ -8,6 +8,10 @@ body {
     box-sizing: border-box;
 }
 
+h1 {
+    margin: 0;
+}
+
 ul {
     list-style: none;
     margin: 0;
