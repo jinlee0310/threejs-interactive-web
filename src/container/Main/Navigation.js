@@ -24,6 +24,7 @@ export default function renderNav() {
 
     const render = () => {
         const $nav = $("nav");
+        $nav.setAttribute("id", "main-navigator");
 
         const $basicMenuWrapper = $("ul");
         const $advancedMenuWrapper = $("ul");
