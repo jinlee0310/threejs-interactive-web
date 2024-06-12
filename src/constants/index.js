@@ -16,3 +16,22 @@ export const ADVANCED_MENU = [
     "MiniGame",
 ];
 export const PRACTICE_MENU = ["Shader", "Shader2", "Physics"];
+
+export const GALLERY_NAVLIST = [
+    {
+        name: "Home",
+        link: "/Gallery/home",
+    },
+    {
+        name: "Projects",
+        link: "/Gallery/projects",
+    },
+    {
+        name: "Artists",
+        link: "/Gallery/artists",
+    },
+    {
+        name: "History",
+        link: "/Gallery/history",
+    },
+];

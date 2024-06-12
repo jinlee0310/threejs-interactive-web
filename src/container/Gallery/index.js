@@ -1,69 +1,151 @@
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { handleResize } from "../../lib";
 import renderHTML from "./renderHTML";
+import vertexShader from "./shaders/vertex.glsl";
+import fragmentShader from "./shaders/fragment.glsl";
+import gsap from "gsap";
 
-export default function renderGallery() {
+export default async function renderGallery() {
     renderHTML();
 
-    const canvasSize = {
-        width: window.innerWidth,
-        height: window.innerHeight,
-    };
+    const $gallery = document.querySelector("#gallery");
+    const $canvas = document.createElement("canvas");
+
     const renderer = new THREE.WebGLRenderer({
         antialias: true,
         alpha: true,
+        canvas: $canvas,
     });
-    renderer.setSize(canvasSize.width, canvasSize.height);
 
-    document.body.appendChild(renderer.domElement);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    $gallery.appendChild(renderer.domElement);
 
     const camera = new THREE.PerspectiveCamera(
         75,
-        canvasSize.width / canvasSize.height,
+        window.innerWidth / window.innerHeight,
         0.1,
         100
     );
-    camera.position.set(0, 0, 3);
+    camera.position.set(0, 0, 50);
+    camera.fov = Math.atan2(window.innerHeight / 2, 50) * (180 / Math.PI) * 2; // 카메라 position에 따른 화각 계산
+
+    const textureLoader = new THREE.TextureLoader();
+
+    const clock = new THREE.Clock();
 
     const scene = new THREE.Scene();
 
-    const controls = new OrbitControls(camera, renderer.domElement);
+    const imageRepository = [];
 
-    const createObject = () => {
-        const geometry = new THREE.PlaneGeometry(1, 1);
-        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-        const mesh = new THREE.Mesh(geometry, material);
-
-        scene.add(mesh);
+    const loadImages = async () => {
+        const images = [
+            ...document.querySelectorAll("#gallery main .content img"),
+        ];
+        const fetchImages = images.map(
+            (image) =>
+                new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        image.onload = resolve(image);
+                        image.onerror = reject;
+                    }, 100);
+                })
+        );
+        const loadedImages = await Promise.all(fetchImages);
+        return loadedImages;
     };
 
-    const create = () => {
-        createObject();
+    const createImages = (images) => {
+        const material = new THREE.ShaderMaterial({
+            uniforms: {
+                uTexture: { value: null },
+                uTime: { value: 0 },
+                uHover: { value: 0 },
+            },
+            vertexShader,
+            fragmentShader,
+        });
+
+        const imageMeshes = images.map((image) => {
+            const { width, height } = image.getBoundingClientRect();
+            const clonedMaterial = material.clone();
+            clonedMaterial.uniforms.uTexture.value = textureLoader.load(
+                image.src
+            );
+            const geometry = new THREE.PlaneGeometry(width, height, 16, 16);
+
+            const mesh = new THREE.Mesh(geometry, clonedMaterial);
+
+            imageRepository.push({ image, mesh });
+
+            return mesh;
+        });
+        return imageMeshes;
+    };
+
+    const create = async () => {
+        const loadedImages = await loadImages();
+        const images = createImages([...loadedImages]);
+        scene.add(...images);
     };
 
     const draw = () => {
         renderer.render(scene, camera);
+        retransform();
 
-        controls.update();
+        imageRepository.forEach(({ image, mesh }) => {
+            mesh.material.uniforms.uTime.value = clock.getElapsedTime();
+        });
 
         requestAnimationFrame(draw);
     };
 
     const resize = () => {
-        handleResize(renderer, camera);
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.fov =
+            Math.atan2(window.innerHeight / 2, 50) * (180 / Math.PI) * 2;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    };
+
+    const retransform = () => {
+        imageRepository.forEach(({ image, mesh }) => {
+            const { width, height, top, left } = image.getBoundingClientRect();
+            const { width: originWidth } = mesh.geometry.parameters;
+            const scale = width / originWidth;
+            mesh.scale.x = scale;
+            mesh.scale.y = scale;
+
+            mesh.position.y = window.innerHeight / 2 - height / 2 - top;
+            mesh.position.x = -window.innerWidth / 2 + width / 2 + left;
+        });
     };
 
     const addEvent = () => {
         window.addEventListener("resize", resize);
+        imageRepository.forEach(({ image, mesh }) => {
+            image.addEventListener("mouseenter", () => {
+                gsap.to(mesh.material.uniforms.uHover, {
+                    duration: 0.5,
+                    value: 1,
+                });
+            });
+            image.addEventListener("mouseout", () => {
+                gsap.to(mesh.material.uniforms.uHover, {
+                    duration: 0.5,
+                    value: 0,
+                });
+            });
+        });
     };
 
-    const initialize = () => {
-        create();
+    const initialize = async () => {
+        await create();
         draw();
         resize();
         addEvent();
     };
 
-    // initialize();
+    await initialize();
 }
