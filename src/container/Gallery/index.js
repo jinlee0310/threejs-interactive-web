@@ -35,6 +35,8 @@ export default async function renderGallery() {
 
     const scene = new THREE.Scene();
 
+    const raycaster = new THREE.Raycaster();
+
     const imageRepository = [];
 
     const loadImages = async () => {
@@ -60,6 +62,8 @@ export default async function renderGallery() {
                 uTexture: { value: null },
                 uTime: { value: 0 },
                 uHover: { value: 0 },
+                uHoverX: { value: 0.5 },
+                uHoverY: { value: 0.5 },
             },
             vertexShader,
             fragmentShader,
@@ -123,7 +127,24 @@ export default async function renderGallery() {
     };
 
     const addEvent = () => {
+        window.addEventListener("mousemove", (e) => {
+            const pointer = {
+                x: (e.clientX / window.innerWidth) * 2 - 1, // -1 ~ 1
+                y: -(e.clientY / window.innerHeight) * 2 + 1, // -1 ~ 1
+            };
+            raycaster.setFromCamera(pointer, camera);
+
+            const intersects = raycaster.intersectObjects(scene.children);
+
+            if (intersects.length > 0) {
+                let mesh = intersects[0].object;
+                mesh.material.uniforms.uHoverX.value = intersects[0].uv.x - 0.5;
+                mesh.material.uniforms.uHoverY.value = intersects[0].uv.y - 0.5;
+            }
+        });
+
         window.addEventListener("resize", resize);
+
         imageRepository.forEach(({ image, mesh }) => {
             image.addEventListener("mouseenter", () => {
                 gsap.to(mesh.material.uniforms.uHover, {
