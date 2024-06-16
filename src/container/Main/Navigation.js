@@ -1,5 +1,10 @@
 import { $ } from "../../lib";
-import { ADVANCED_MENU, BASIC_MENU, PRACTICE_MENU } from "../../constants";
+import {
+    ADVANCED_MENU,
+    BASIC_MENU,
+    LABS_MENU,
+    PRACTICE_MENU,
+} from "../../constants";
 
 export default function renderNav() {
     const createMenuTitle = (title, $parent) => {
@@ -29,22 +34,28 @@ export default function renderNav() {
         const $basicMenuWrapper = $("ul");
         const $advancedMenuWrapper = $("ul");
         const $practiceMenuWrapper = $("ul");
+        const $labsMenuWrapper = $("ul");
 
         $basicMenuWrapper.id = "basic";
         $advancedMenuWrapper.id = "advanced";
         $practiceMenuWrapper.id = "practice";
+        $practiceMenuWrapper.id = "labs";
 
         createMenuTitle("Basic", $basicMenuWrapper);
         createMenuTitle("Advanved", $advancedMenuWrapper);
         createMenuTitle("Practice", $practiceMenuWrapper);
+        createMenuTitle("Labs", $labsMenuWrapper);
 
         createList(BASIC_MENU, $basicMenuWrapper);
         createList(ADVANCED_MENU, $advancedMenuWrapper);
         createList(PRACTICE_MENU, $practiceMenuWrapper);
+        createList(LABS_MENU, $labsMenuWrapper);
 
         $nav.appendChild($basicMenuWrapper);
         $nav.appendChild($advancedMenuWrapper);
         $nav.appendChild($practiceMenuWrapper);
+        $nav.appendChild($labsMenuWrapper);
+
         document.body.appendChild($nav);
     };
 
