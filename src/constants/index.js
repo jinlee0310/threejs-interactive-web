@@ -17,7 +17,7 @@ export const ADVANCED_MENU = [
 ];
 export const PRACTICE_MENU = ["Shader", "Shader2", "Physics"];
 
-export const LABS_MENU = ["Labs", "Labs2"];
+export const LABS_MENU = ["Labs", "Labs2", "Reflectivity", "Cameras", "Lights"];
 
 export const GALLERY_NAVLIST = [
     {
