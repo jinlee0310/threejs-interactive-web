@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import * as CANNON from "cannon-es";
-import SPhysics from "../../../../../core/Physics";
+import SPhysics from "../../../core/Physics";
 import { SLoader } from "../../../../../lib/Loader";
 import SEventEmitter from "../../../../../lib/EventEmitter";
 

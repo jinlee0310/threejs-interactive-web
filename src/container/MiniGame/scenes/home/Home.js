@@ -1,10 +1,10 @@
 import * as THREE from "three";
-import SWorld from "../../../../core/World";
-import SPhysics from "../../../../core/Physics";
+import SPhysics from "../../core/Physics";
 import { Floor } from "./models/Floor";
 import { Light } from "./tools/Light";
 import { Bird } from "./models/Bird";
 import { Zone } from "./models/Zone";
+import { SWorld } from "../../core/World";
 
 export class Home {
     raf = 0;
@@ -12,6 +12,10 @@ export class Home {
 
     async init() {
         this.world = SWorld;
+        if (!this.world.canvas) {
+            this.world.generateCanvas();
+            this.world.initialize();
+        }
         this.scene = new THREE.Scene();
         this.world.currentScene = this.scene;
 

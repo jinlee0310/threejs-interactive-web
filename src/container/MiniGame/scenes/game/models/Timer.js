@@ -4,18 +4,23 @@ import SEventEmitter from "../../../../../lib/EventEmitter";
 
 export class Timer extends THREE.Clock {
     isEnded = false;
+    #time = null;
+
     constructor(startAt) {
         super();
+        if (!document.querySelector(".time")) {
+            const $timeDiv = $("div");
+            $timeDiv.classList.add("time");
 
-        const $timeDiv = $("div");
-        $timeDiv.classList.add("time");
+            this.$timer = $("h1");
+            this.$timer.innerText = "10";
 
-        this.$timer = $("h1");
-        this.$timer.innerText = "10";
+            $timeDiv.appendChild(this.$timer);
 
-        $timeDiv.appendChild(this.$timer);
-
-        document.body.appendChild($timeDiv);
+            document.body.appendChild($timeDiv);
+        } else {
+            this.$timer = document.querySelector(".time h1");
+        }
 
         this.startAt = startAt;
         this.eventEmitter = SEventEmitter;
@@ -36,6 +41,7 @@ export class Timer extends THREE.Clock {
         if (this.currentTime === 0) {
             this.isEnded = true;
             this.eventEmitter.lose();
+            this.eventEmitter.changeScene("home");
             this.$timer.innerText = "";
         }
     }

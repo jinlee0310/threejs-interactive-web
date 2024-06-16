@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import SWorld from "../../../../core/World";
-import SPhysics from "../../../../core/Physics";
+// import { SWorld } from "../..";
+import SPhysics from "../../core/Physics";
 import { Floor } from "./models/Floor";
 import { Light } from "./tools/Light";
 import { Player } from "./models/Player";
@@ -9,6 +9,7 @@ import { Roller } from "./models/Roller";
 import { Goal } from "./models/Goal";
 import { Timer } from "./models/Timer";
 import SEventEmitter from "../../../../lib/EventEmitter";
+import { SWorld } from "../../core/World";
 
 export class Game {
     raf = 0;
