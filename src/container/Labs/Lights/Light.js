@@ -43,7 +43,7 @@ export class Light {
     createSphere() {
         const geometry = new THREE.SphereGeometry(3, 30, 30);
         const material = new THREE.MeshStandardMaterial({
-            color: 0x00ffff,
+            color: 0xffffff,
             roughness: 0.3,
         });
         const mesh = new THREE.Mesh(geometry, material);
@@ -55,7 +55,7 @@ export class Light {
     createTorusKnot() {
         const geometry = new THREE.TorusKnotGeometry(2, 0.8, 100, 16);
         const material = new THREE.MeshStandardMaterial({
-            color: 0x00ffff,
+            color: 0x81d8cf,
             roughness: 0,
             metalness: 0.3,
         });
@@ -68,7 +68,7 @@ export class Light {
 
     createFloor() {
         const geometry = new THREE.BoxGeometry(30, 1, 30);
-        const material = new THREE.MeshStandardMaterial({ color: 0xffffff });
+        const material = new THREE.MeshStandardMaterial({ color: 0xd3d3d3 });
         const mesh = new THREE.Mesh(geometry, material);
         mesh.position.set(0, -5, 0);
 
