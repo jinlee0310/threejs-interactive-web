@@ -3,36 +3,57 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { Light } from "./Light";
 
 export default class AmbientLight extends Light {
-    #canvas = null;
+    _canvas = null;
+    _camera = null;
+    _renderer = null;
+    _scene = null;
+    _controls = null;
     constructor() {
-        const scene = new THREE.Scene();
-        super(scene);
-        this.scene = scene;
+        const $wrapper = document.createElement("div");
+        $wrapper.id = "ambient-light";
 
-        this.#canvas = document.createElement("canvas");
-        this.#canvas.id = "ambient-light";
+        const $h2 = document.createElement("h2");
+        $h2.innerText = "Ambient Light";
 
-        this.renderer = new THREE.WebGLRenderer({
+        $wrapper.appendChild($h2);
+
+        const $canvas = document.createElement("canvas");
+
+        $wrapper.appendChild($canvas);
+
+        document.querySelector("#labs-lights").appendChild($wrapper);
+
+        const renderer = new THREE.WebGLRenderer({
             antialias: true,
-            canvas: this.#canvas,
+            canvas: $canvas,
         });
-        this.renderer.setClearColor(0x333333);
-        this.renderer.setSize(window.innerWidth / 3, window.innerHeight / 2);
+        renderer.setClearColor(0x333333);
+        renderer.setSize(window.innerWidth / 3, window.innerHeight / 2);
 
-        document.querySelector("#labs-lights").appendChild(this.#canvas);
+        document.querySelector("#labs-lights").appendChild($wrapper);
 
-        this.camera = new THREE.PerspectiveCamera(
+        const scene = new THREE.Scene();
+
+        const camera = new THREE.PerspectiveCamera(
             75,
             window.innerWidth / 3 / (window.innerHeight / 2),
             0.1,
             100
         );
-        this.camera.position.set(15, 15, 15);
+        camera.position.set(15, 15, 15);
 
-        this.controls = new OrbitControls(this.camera, this.#canvas);
+        const controls = new OrbitControls(camera, $canvas);
+
+        super(scene);
+
+        this._canvas = $canvas;
+        this._renderer = renderer;
+        this._scene = scene;
+        this._camera = camera;
+        this._controls = controls;
 
         const axesHelper = new THREE.AxesHelper(30);
-        this.scene.add(axesHelper);
+        this._scene.add(axesHelper);
     }
 
     render() {
@@ -44,22 +65,22 @@ export default class AmbientLight extends Light {
 
     createLight() {
         const ambientLight = new THREE.AmbientLight(0xffffff);
-        this.scene.add(ambientLight);
+        this._scene.add(ambientLight);
     }
 
     draw() {
-        this.renderer.render(this.scene, this.camera);
+        this._renderer.render(this._scene, this._camera);
 
-        this.controls.update();
+        this._controls.update();
 
         requestAnimationFrame(() => this.draw());
     }
 
     resize() {
-        this.camera.aspect = window.innerWidth / 3 / (window.innerHeight / 2);
-        this.camera.updateProjectionMatrix();
+        this._camera.aspect = window.innerWidth / 3 / (window.innerHeight / 2);
+        this._camera.updateProjectionMatrix();
 
-        this.renderer.setSize(window.innerWidth / 3, window.innerHeight / 2);
-        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        this._renderer.setSize(window.innerWidth / 3, window.innerHeight / 2);
+        this._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     }
 }

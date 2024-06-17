@@ -1,7 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { Light } from "./Light";
-import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHelper.js";
 
 export default class SpotLight extends Light {
     _canvas = null;
@@ -10,12 +9,19 @@ export default class SpotLight extends Light {
     _scene = null;
 
     constructor() {
-        const scene = new THREE.Scene();
+        const $wrapper = document.createElement("div");
+        $wrapper.id = "spot-light";
+
+        const $h2 = document.createElement("h2");
+        $h2.innerText = "SpotLight";
+
+        $wrapper.appendChild($h2);
 
         const $canvas = document.createElement("canvas");
-        $canvas.id = "spot-light";
 
-        document.querySelector("#labs-lights").appendChild($canvas);
+        $wrapper.appendChild($canvas);
+
+        document.querySelector("#labs-lights").appendChild($wrapper);
 
         const renderer = new THREE.WebGLRenderer({
             antialias: true,
@@ -24,6 +30,7 @@ export default class SpotLight extends Light {
 
         renderer.setClearColor(0x333333);
         renderer.setSize(window.innerWidth / 3, window.innerHeight / 2);
+        const scene = new THREE.Scene();
 
         const camera = new THREE.PerspectiveCamera(
             75,

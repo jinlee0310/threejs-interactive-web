@@ -2,8 +2,19 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
+    margin: 0;
+    padding: 0;
 }
 
-#labs-lights canvas {
+#labs-lights div {
     border: 1px solid green;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+#labs-lights div h2 {
+    color: #b3b3b3;
+    position: absolute;
+    left: 25px;
 }

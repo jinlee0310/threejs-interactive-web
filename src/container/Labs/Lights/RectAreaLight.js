@@ -9,12 +9,19 @@ export default class RectAreaLight extends Light {
     _renderer = null;
     _scene = null;
     constructor() {
-        const scene = new THREE.Scene();
+        const $wrapper = document.createElement("div");
+        $wrapper.id = "react-area-light";
+
+        const $h2 = document.createElement("h2");
+        $h2.innerText = "Rect Area Light";
+
+        $wrapper.appendChild($h2);
 
         const $canvas = document.createElement("canvas");
-        $canvas.id = "rect-area-light";
 
-        document.querySelector("#labs-lights").appendChild($canvas);
+        $wrapper.appendChild($canvas);
+
+        document.querySelector("#labs-lights").appendChild($wrapper);
 
         const renderer = new THREE.WebGLRenderer({
             antialias: true,
@@ -23,6 +30,8 @@ export default class RectAreaLight extends Light {
 
         renderer.setClearColor(0x333333);
         renderer.setSize(window.innerWidth / 3, window.innerHeight / 2);
+
+        const scene = new THREE.Scene();
 
         const camera = new THREE.PerspectiveCamera(
             75,
