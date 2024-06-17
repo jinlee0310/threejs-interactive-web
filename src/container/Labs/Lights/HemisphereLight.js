@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { Light } from "./Light";
+import GUI from "lil-gui";
 
 export default class HemisphereLight extends Light {
     _canvas = null;
@@ -61,11 +62,25 @@ export default class HemisphereLight extends Light {
     }
 
     createLight() {
-        const light = new THREE.HemisphereLight(0xff0000, 0x0000ff);
+        const light = new THREE.HemisphereLight(0xf3f3f3, 0x0000ff);
         light.position.set(0, 10, 0);
+
         const lightHelper = new THREE.HemisphereLightHelper(light);
         this._scene.add(light);
         this._scene.add(lightHelper);
+        this.createGui(light);
+    }
+
+    createGui(light) {
+        const gui = new GUI({
+            container: document.querySelector("#hemisphere-light"),
+        });
+        gui.add(light, "intensity").min(0).max(5).step(0.5);
+        gui.add(light.position, "x").min(0).max(30).step(1);
+        gui.add(light.position, "y").min(0).max(30).step(1);
+        gui.add(light.position, "z").min(0).max(30).step(1);
+        gui.addColor(light, "color");
+        gui.addColor(light, "groundColor");
     }
 
     draw() {

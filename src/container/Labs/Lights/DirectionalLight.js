@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { Light } from "./Light";
+import GUI from "lil-gui";
 
 export default class DirectionalLight extends Light {
     _canvas = null;
@@ -66,6 +67,18 @@ export default class DirectionalLight extends Light {
         const lightHelper = new THREE.DirectionalLightHelper(light);
         this._scene.add(light);
         this._scene.add(lightHelper);
+        this.createGui(light);
+    }
+
+    createGui(light) {
+        const gui = new GUI({
+            container: document.querySelector("#directional-light"),
+        });
+        gui.add(light, "intensity").min(0).max(5).step(0.5);
+        gui.add(light.position, "x").min(0).max(30).step(1);
+        gui.add(light.position, "y").min(0).max(30).step(1);
+        gui.add(light.position, "z").min(0).max(30).step(1);
+        gui.addColor(light, "color");
     }
 
     draw() {

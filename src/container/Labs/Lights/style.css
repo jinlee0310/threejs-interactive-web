@@ -6,11 +6,17 @@
     padding: 0;
 }
 
-#labs-lights div {
+#labs-lights > div {
     border: 1px solid green;
     position: relative;
     margin: 0;
     padding: 0;
+}
+
+#labs-lights div .lil-gui {
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 #labs-lights div h2 {

@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { Light } from "./Light";
+import GUI from "lil-gui";
 
 export default class SpotLight extends Light {
     _canvas = null;
@@ -67,15 +68,35 @@ export default class SpotLight extends Light {
             0.5
         );
         light.position.set(0, 20, 0);
-        const lightHelper = new THREE.SpotLightHelper(light);
+        this._lightHelper = new THREE.SpotLightHelper(light);
         this._scene.add(light);
-        this._scene.add(lightHelper);
+        this._scene.add(this._lightHelper);
+        this.createGui(light);
+    }
+
+    createGui(light) {
+        const gui = new GUI({
+            container: document.querySelector("#spot-light"),
+        });
+        gui.add(light, "intensity").min(0).max(5).step(0.5);
+        gui.add(light.position, "x").min(0).max(30).step(1);
+        gui.add(light.position, "y").min(0).max(30).step(1);
+        gui.add(light.position, "z").min(0).max(30).step(1);
+        gui.add(light, "decay").min(0).max(3).step(0.01);
+        gui.add(light, "distance").min(0).max(50).step(1);
+        gui.add(light, "angle")
+            .min(0)
+            .max(Math.PI / 2)
+            .step(Math.PI / 50);
+        gui.addColor(light, "color");
     }
 
     draw() {
         this._renderer.render(this._scene, this._camera);
 
         this.controls.update();
+
+        this._lightHelper.update();
 
         requestAnimationFrame(() => this.draw());
     }

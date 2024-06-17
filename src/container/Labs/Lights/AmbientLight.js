@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { Light } from "./Light";
+import GUI from "lil-gui";
 
 export default class AmbientLight extends Light {
     _canvas = null;
@@ -66,6 +67,15 @@ export default class AmbientLight extends Light {
     createLight() {
         const ambientLight = new THREE.AmbientLight(0xffffff);
         this._scene.add(ambientLight);
+        this.createGui(ambientLight);
+    }
+
+    createGui(light) {
+        const gui = new GUI({
+            container: document.querySelector("#ambient-light"),
+        });
+        gui.add(light, "intensity").min(0).max(5).step(0.5);
+        gui.addColor(light, "color");
     }
 
     draw() {
