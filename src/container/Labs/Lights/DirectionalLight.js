@@ -9,6 +9,11 @@ export default class DirectionalLight extends Light {
     _renderer = null;
     _scene = null;
     _controls = null;
+
+    _gui = null;
+    get gui() {
+        return this._gui;
+    }
     constructor() {
         const $wrapper = document.createElement("div");
         $wrapper.id = "directional-light";
@@ -52,6 +57,9 @@ export default class DirectionalLight extends Light {
         this._scene = _scene;
         this._camera = _camera;
         this._controls = _controls;
+        this._gui = new GUI({
+            container: document.querySelector("#directional-light"),
+        });
     }
 
     render() {
@@ -71,14 +79,11 @@ export default class DirectionalLight extends Light {
     }
 
     createGui(light) {
-        const gui = new GUI({
-            container: document.querySelector("#directional-light"),
-        });
-        gui.add(light, "intensity").min(0).max(5).step(0.5);
-        gui.add(light.position, "x").min(0).max(30).step(1);
-        gui.add(light.position, "y").min(0).max(30).step(1);
-        gui.add(light.position, "z").min(0).max(30).step(1);
-        gui.addColor(light, "color");
+        this._gui.add(light, "intensity").min(0).max(5).step(0.5);
+        this._gui.add(light.position, "x").min(0).max(30).step(1);
+        this._gui.add(light.position, "y").min(0).max(30).step(1);
+        this._gui.add(light.position, "z").min(0).max(30).step(1);
+        this._gui.addColor(light, "color");
     }
 
     draw() {

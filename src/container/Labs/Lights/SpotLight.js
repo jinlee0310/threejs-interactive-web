@@ -9,6 +9,11 @@ export default class SpotLight extends Light {
     _renderer = null;
     _scene = null;
 
+    _gui = null;
+    get gui() {
+        return this._gui;
+    }
+
     constructor() {
         const $wrapper = document.createElement("div");
         $wrapper.id = "spot-light";
@@ -49,6 +54,10 @@ export default class SpotLight extends Light {
         this._camera = camera;
 
         this._controls = new OrbitControls(this._camera, this._canvas);
+
+        this._gui = new GUI({
+            container: document.querySelector("#spot-light"),
+        });
     }
 
     render() {
@@ -75,20 +84,18 @@ export default class SpotLight extends Light {
     }
 
     createGui(light) {
-        const gui = new GUI({
-            container: document.querySelector("#spot-light"),
-        });
-        gui.add(light, "intensity").min(0).max(5).step(0.5);
-        gui.add(light.position, "x").min(0).max(30).step(1);
-        gui.add(light.position, "y").min(0).max(30).step(1);
-        gui.add(light.position, "z").min(0).max(30).step(1);
-        gui.add(light, "decay").min(0).max(3).step(0.01);
-        gui.add(light, "distance").min(0).max(50).step(1);
-        gui.add(light, "angle")
+        this._gui.add(light, "intensity").min(0).max(5).step(0.5);
+        this._gui.add(light.position, "x").min(0).max(30).step(1);
+        this._gui.add(light.position, "y").min(0).max(30).step(1);
+        this._gui.add(light.position, "z").min(0).max(30).step(1);
+        this._gui.add(light, "decay").min(0).max(3).step(0.01);
+        this._gui.add(light, "distance").min(0).max(50).step(1);
+        this._gui
+            .add(light, "angle")
             .min(0)
             .max(Math.PI / 2)
             .step(Math.PI / 50);
-        gui.addColor(light, "color");
+        this._gui.addColor(light, "color");
     }
 
     draw() {

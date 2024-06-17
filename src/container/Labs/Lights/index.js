@@ -1,26 +1,25 @@
-import AmbientLight from "./AmbientLight";
-import DirectionalLight from "./DirectionalLight";
-import HemisphereLight from "./HemisphereLight";
-import PointLight from "./PointLight";
-import RectAreaLight from "./RectareaLight";
-import SpotLight from "./SpotLight";
+import Main from "./Main";
 
 export default function Lights() {
     const $container = document.createElement("div");
     $container.id = "labs-lights";
     document.body.appendChild($container);
 
-    const ambientLight = new AmbientLight();
-    const directionalLight = new DirectionalLight();
-    const hemisphereLight = new HemisphereLight();
-    const pointLight = new PointLight();
-    const rectAreaLight = new RectAreaLight();
-    const spotLight = new SpotLight();
+    const main = new Main();
+    main.init();
+    main.guiControl.close();
 
-    ambientLight.render();
-    directionalLight.render();
-    hemisphereLight.render();
-    pointLight.render();
-    rectAreaLight.render();
-    spotLight.render();
+    const $checkbox = document.createElement("input");
+    $checkbox.setAttribute("type", "checkbox");
+    $checkbox.id = "show-gui";
+    $checkbox.setAttribute("checked", true);
+    $container.appendChild($checkbox);
+
+    $checkbox.addEventListener("change", (e) => {
+        if (e.target.checked) {
+            main.guiControl.close();
+        } else {
+            main.guiControl.open();
+        }
+    });
 }

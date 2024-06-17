@@ -10,6 +10,9 @@ export default class RectAreaLight extends Light {
     _renderer = null;
     _scene = null;
     _gui = null;
+    get gui() {
+        return this._gui;
+    }
     constructor() {
         const $wrapper = document.createElement("div");
         $wrapper.id = "rect-area-light";

@@ -9,6 +9,12 @@ export default class AmbientLight extends Light {
     _renderer = null;
     _scene = null;
     _controls = null;
+
+    _gui = null;
+    get gui() {
+        return this._gui;
+    }
+
     constructor() {
         const $wrapper = document.createElement("div");
         $wrapper.id = "ambient-light";
@@ -52,6 +58,9 @@ export default class AmbientLight extends Light {
         this._scene = scene;
         this._camera = camera;
         this._controls = controls;
+        this._gui = new GUI({
+            container: document.querySelector("#ambient-light"),
+        });
 
         const axesHelper = new THREE.AxesHelper(30);
         this._scene.add(axesHelper);
@@ -71,11 +80,8 @@ export default class AmbientLight extends Light {
     }
 
     createGui(light) {
-        const gui = new GUI({
-            container: document.querySelector("#ambient-light"),
-        });
-        gui.add(light, "intensity").min(0).max(5).step(0.5);
-        gui.addColor(light, "color");
+        this._gui.add(light, "intensity").min(0).max(5).step(0.5);
+        this._gui.addColor(light, "color");
     }
 
     draw() {
