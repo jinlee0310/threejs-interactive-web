@@ -48,7 +48,7 @@ export default class SpotLight extends Light {
         this._renderer = renderer;
         this._camera = camera;
 
-        this.controls = new OrbitControls(this._camera, this._canvas);
+        this._controls = new OrbitControls(this._camera, this._canvas);
     }
 
     render() {
@@ -94,7 +94,7 @@ export default class SpotLight extends Light {
     draw() {
         this._renderer.render(this._scene, this._camera);
 
-        this.controls.update();
+        this._controls.update();
 
         this._lightHelper.update();
 

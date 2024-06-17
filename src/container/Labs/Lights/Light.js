@@ -2,24 +2,52 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 export class Light {
-    _camera = null;
-    _controls = null;
+    _controls = [];
+    _cameras = [];
+    _canvasSize = {
+        width: Math.floor(window.innerWidth / 3),
+        height: Math.floor(window.innerHeight / 2),
+    };
 
     get controls() {
         return this._controls;
     }
-    set controls(controls) {
-        this._controls = controls;
+
+    get cameras() {
+        return this._cameras;
+    }
+
+    get canvasSize() {
+        return this._canvasSize;
     }
 
     constructor(scene) {
         this.scene = scene;
     }
 
-    synchronizeControls(controlsFrom, cameraTo, controlsTo) {
-        cameraTo.position.copy(controlsFrom.object.position);
-        cameraTo.quaternion.copy(controlsFrom.object.quaternion);
-        controlsTo.update();
+    // synchronizeControls(controlsFrom, cameraTo, controlsTo) {
+    //     cameraTo.position.copy(controlsFrom.object.position);
+    //     cameraTo.quaternion.copy(controlsFrom.object.quaternion);
+    //     controlsTo.update();
+    // }
+
+    addCamera(camera) {
+        this._cameras.push(camera);
+    }
+
+    addControl(control) {
+        this._controls.push(control);
+    }
+
+    synchronizeControls(i) {
+        this.controls.forEach((control, idx) => {
+            if (idx === i) return;
+            this.cameras[idx].position.copy(this.controls[i].object.position);
+            this.cameras[idx].quaternion.copy(
+                this.controls[i].object.quaternion
+            );
+            control.update();
+        });
     }
 
     create() {
