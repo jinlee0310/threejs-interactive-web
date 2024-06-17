@@ -17,10 +17,10 @@ export default function Lights() {
     const rectAreaLight = new RectAreaLight();
     const spotLight = new SpotLight();
 
-    ambientLight.init();
-    directionalLight.init();
-    hemisphereLight.init();
-    pointLight.init();
-    rectAreaLight.init();
-    spotLight.init();
+    ambientLight.render();
+    directionalLight.render();
+    hemisphereLight.render();
+    pointLight.render();
+    rectAreaLight.render();
+    spotLight.render();
 }

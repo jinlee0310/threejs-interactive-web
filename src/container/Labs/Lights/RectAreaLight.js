@@ -42,7 +42,7 @@ export default class RectAreaLight extends Light {
         this.controls = new OrbitControls(this._camera, this._canvas);
     }
 
-    init() {
+    render() {
         this.create();
         this.createLight();
         this.resize();

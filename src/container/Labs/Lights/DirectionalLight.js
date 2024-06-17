@@ -32,7 +32,7 @@ export default class DirectionalLight extends Light {
         this.controls = new OrbitControls(this.camera, this.#canvas);
     }
 
-    init() {
+    render() {
         this.createLight();
         this.create();
         this.resize();

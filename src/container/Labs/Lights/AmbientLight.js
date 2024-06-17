@@ -35,7 +35,7 @@ export default class AmbientLight extends Light {
         this.scene.add(axesHelper);
     }
 
-    init() {
+    render() {
         this.create();
         this.createLight();
         this.resize();

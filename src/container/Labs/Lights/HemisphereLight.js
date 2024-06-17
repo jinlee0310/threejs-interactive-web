@@ -32,7 +32,7 @@ export default class HemisphereLight extends Light {
         this.controls = new OrbitControls(this.camera, this.#canvas);
     }
 
-    init() {
+    render() {
         this.create();
         this.createLight();
         this.resize();
