@@ -55,6 +55,16 @@ export class Light {
         this.createTorusKnot();
         this.createFloor();
         this.createSphere();
+        this.createCone();
+    }
+
+    createCone() {
+        const geometry = new THREE.ConeGeometry(3, 7, 30);
+        const material = new THREE.MeshPhongMaterial({ color: 0x87ceeb });
+        const mesh = new THREE.Mesh(geometry, material);
+        mesh.position.set(-7, 0, 0);
+
+        this.scene.add(mesh);
     }
 
     createMesh() {
@@ -64,6 +74,7 @@ export class Light {
             roughness: 0.3,
         });
         const mesh = new THREE.Mesh(geometry, material);
+        mesh.position.set(6, 0, 3);
 
         this.scene.add(mesh);
     }
@@ -82,10 +93,8 @@ export class Light {
 
     createTorusKnot() {
         const geometry = new THREE.TorusKnotGeometry(2, 0.8, 100, 16);
-        const material = new THREE.MeshStandardMaterial({
+        const material = new THREE.MeshToonMaterial({
             color: 0x81d8cf,
-            roughness: 0,
-            metalness: 0.3,
         });
         const mesh = new THREE.Mesh(geometry, material);
         mesh.position.set(0, 0, 10);
@@ -98,7 +107,7 @@ export class Light {
         const geometry = new THREE.BoxGeometry(30, 1, 30);
         const material = new THREE.MeshStandardMaterial({ color: 0xd3d3d3 });
         const mesh = new THREE.Mesh(geometry, material);
-        mesh.position.set(0, -5, 0);
+        mesh.position.set(0, -4, 0);
 
         this.scene.add(mesh);
     }
