@@ -36,6 +36,8 @@ export default class SpotLight extends Light {
 
         renderer.setClearColor(0x333333);
         renderer.setSize(window.innerWidth / 3, window.innerHeight / 2);
+        renderer.shadowMap.enabled = true;
+
         const scene = new THREE.Scene();
 
         const camera = new THREE.PerspectiveCamera(
@@ -76,7 +78,13 @@ export default class SpotLight extends Light {
             0.2,
             0.5
         );
+        light.castShadow = true;
+        light.shadow.mapSize.width = 2048;
+        light.shadow.mapSize.height = 2048;
+        light.shadow.normalBias = 0.05;
+        light.shadow.radius = 10;
         light.position.set(0, 20, 0);
+
         this._lightHelper = new THREE.SpotLightHelper(light);
         this._scene.add(light);
         this._scene.add(this._lightHelper);

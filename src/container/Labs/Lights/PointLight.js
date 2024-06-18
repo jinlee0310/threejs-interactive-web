@@ -36,6 +36,7 @@ export default class PointLight extends Light {
         });
         renderer.setClearColor(0x333333);
         renderer.setSize(window.innerWidth / 3, window.innerHeight / 2);
+        renderer.shadowMap.enabled = true;
 
         document.querySelector("#labs-lights").appendChild($wrapper);
 
@@ -73,6 +74,12 @@ export default class PointLight extends Light {
     createLight() {
         const light = new THREE.PointLight(0xffffff);
         light.position.set(0, 3, 0);
+        light.castShadow = true;
+        light.shadow.mapSize.width = 1024;
+        light.shadow.mapSize.height = 1024;
+        light.shadow.normalBias = 0.05;
+        light.shadow.radius = 10;
+
         const lightHelper = new THREE.PointLightHelper(light);
         this._scene.add(light);
         this._scene.add(lightHelper);
@@ -80,7 +87,7 @@ export default class PointLight extends Light {
     }
 
     createGui(light) {
-        this._gui.add(light, "intensity").min(0).max(5).step(0.5);
+        this._gui.add(light, "intensity").min(0).max(5).step(0.1);
         this._gui.add(light, "distance").min(0).max(30).step(1);
         this._gui.add(light, "decay").min(0).max(5).step(0.1);
         this._gui.add(light.position, "x").min(0).max(30).step(1);

@@ -35,6 +35,7 @@ export default class RectAreaLight extends Light {
 
         renderer.setClearColor(0x333333);
         renderer.setSize(window.innerWidth / 3, window.innerHeight / 2);
+        renderer.shadowMap.enabled = true;
 
         const scene = new THREE.Scene();
 

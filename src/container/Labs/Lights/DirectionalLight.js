@@ -29,34 +29,35 @@ export default class DirectionalLight extends Light {
 
         document.querySelector("#labs-lights").appendChild($wrapper);
 
-        const _renderer = new THREE.WebGLRenderer({
+        const renderer = new THREE.WebGLRenderer({
             antialias: true,
             canvas: $canvas,
         });
-        _renderer.setClearColor(0x333333);
-        _renderer.setSize(window.innerWidth / 3, window.innerHeight / 2);
+        renderer.setClearColor(0x333333);
+        renderer.setSize(window.innerWidth / 3, window.innerHeight / 2);
+        renderer.shadowMap.enabled = true;
 
         document.querySelector("#labs-lights").appendChild($wrapper);
 
-        const _scene = new THREE.Scene();
+        const scene = new THREE.Scene();
 
-        const _camera = new THREE.PerspectiveCamera(
+        const camera = new THREE.PerspectiveCamera(
             75,
             window.innerWidth / 3 / (window.innerHeight / 2),
             0.1,
             100
         );
-        _camera.position.set(15, 15, 15);
+        camera.position.set(15, 15, 15);
 
-        const _controls = new OrbitControls(_camera, $canvas);
+        const controls = new OrbitControls(camera, $canvas);
 
-        super(_scene);
+        super(scene);
 
         this._canvas = $canvas;
-        this._renderer = _renderer;
-        this._scene = _scene;
-        this._camera = _camera;
-        this._controls = _controls;
+        this._renderer = renderer;
+        this._scene = scene;
+        this._camera = camera;
+        this._controls = controls;
         this._gui = new GUI({
             container: document.querySelector("#directional-light"),
         });
@@ -72,6 +73,12 @@ export default class DirectionalLight extends Light {
     createLight() {
         const light = new THREE.DirectionalLight(0xffffff);
         light.position.set(8, 10, 5);
+        light.castShadow = true;
+        light.shadow.mapSize.width = 1024;
+        light.shadow.mapSize.height = 1024;
+        light.shadow.normalBias = 0.05;
+        light.shadow.radius = 10;
+
         const lightHelper = new THREE.DirectionalLightHelper(light);
         this._scene.add(light);
         this._scene.add(lightHelper);
@@ -80,9 +87,9 @@ export default class DirectionalLight extends Light {
 
     createGui(light) {
         this._gui.add(light, "intensity").min(0).max(5).step(0.5);
-        this._gui.add(light.position, "x").min(0).max(30).step(1);
-        this._gui.add(light.position, "y").min(0).max(30).step(1);
-        this._gui.add(light.position, "z").min(0).max(30).step(1);
+        this._gui.add(light.position, "x").min(-30).max(30).step(1);
+        this._gui.add(light.position, "y").min(-30).max(30).step(1);
+        this._gui.add(light.position, "z").min(-30).max(30).step(1);
         this._gui.addColor(light, "color");
     }
 

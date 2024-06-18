@@ -63,6 +63,8 @@ export class Light {
         const material = new THREE.MeshPhongMaterial({ color: 0x87ceeb });
         const mesh = new THREE.Mesh(geometry, material);
         mesh.position.set(-7, 0, 0);
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
 
         this.scene.add(mesh);
     }
@@ -75,6 +77,8 @@ export class Light {
         });
         const mesh = new THREE.Mesh(geometry, material);
         mesh.position.set(6, 0, 3);
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
 
         this.scene.add(mesh);
     }
@@ -87,6 +91,8 @@ export class Light {
         });
         const mesh = new THREE.Mesh(geometry, material);
         mesh.position.set(8, 0, -7);
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
 
         this.scene.add(mesh);
     }
@@ -99,6 +105,8 @@ export class Light {
         const mesh = new THREE.Mesh(geometry, material);
         mesh.position.set(0, 0, 10);
         mesh.rotation.set(10, 20, 0);
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
 
         this.scene.add(mesh);
     }
@@ -108,6 +116,7 @@ export class Light {
         const material = new THREE.MeshStandardMaterial({ color: 0xd3d3d3 });
         const mesh = new THREE.Mesh(geometry, material);
         mesh.position.set(0, -4, 0);
+        mesh.receiveShadow = true;
 
         this.scene.add(mesh);
     }
