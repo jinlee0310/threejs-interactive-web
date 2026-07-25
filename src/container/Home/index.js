@@ -39,7 +39,7 @@ export default function renderHome() {
     camera.position.set(-1, 1, 1);
 
     const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath("./assets/models/home/draco/");
+    dracoLoader.setDecoderPath("/assets/models/home/draco/");
 
     const gltfLoader = new GLTFLoader();
     gltfLoader.setDRACOLoader(dracoLoader);
@@ -49,7 +49,7 @@ export default function renderHome() {
     controls.dampingFactor = 0.1;
 
     const createObject = () => {
-        gltfLoader.load("./assets/models/home/home-modeling.glb", (gltf) => {
+        gltfLoader.load("/assets/models/home/home-modeling.glb", (gltf) => {
             gltf.scene.scale.set(0.25, 0.25, 0.25);
             gltf.scene.position.set(0, -0.3, 0);
             scene.add(gltf.scene);

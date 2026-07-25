@@ -47,7 +47,7 @@ export class Bird {
     load() {
         return new Promise((resolve) => {
             this.loader.gltfLoader.load(
-                "./assets/models/bird/scene.gltf",
+                "/assets/models/bird/scene.gltf",
                 (gltf) => {
                     resolve(gltf.scene);
                 }

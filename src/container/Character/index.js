@@ -50,7 +50,7 @@ export default async function renderCharacter() {
     };
 
     const gltf = await gltfLoader.loadAsync(
-        "./assets/models/character/character.gltf"
+        "/assets/models/character/character.gltf"
     );
 
     const model = gltf.scene;

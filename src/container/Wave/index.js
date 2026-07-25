@@ -90,7 +90,7 @@ export default async function renderWave() {
 
     const gltfLoader = new GLTFLoader();
 
-    const gltf = await gltfLoader.loadAsync("./assets/models/ship/scene.gltf");
+    const gltf = await gltfLoader.loadAsync("/assets/models/ship/scene.gltf");
 
     const ship = gltf.scene;
 

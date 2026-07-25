@@ -33,7 +33,7 @@ export default function renderVillage() {
     // controls.maxDistance = 100;
 
     // const textureLoader = new Three.TextureLoader().setPath(
-    //     "./assets/texture/Yokohama/"
+    //     "/assets/texture/Yokohama/"
     // );
 
     // const images = [
@@ -67,7 +67,7 @@ export default function renderVillage() {
     controls.autoRotateSpeed = 0.5;
 
     const cubeTextureLoader = new Three.CubeTextureLoader().setPath(
-        "./assets/texture/Yokohama/"
+        "/assets/texture/Yokohama/"
     );
 
     const images = [

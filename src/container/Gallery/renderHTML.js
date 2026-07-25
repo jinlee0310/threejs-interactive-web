@@ -48,7 +48,7 @@ export default function renderHTML() {
         $imageWrapper.classList.add("img-wrapper");
 
         const $img = document.createElement("img");
-        $img.setAttribute("src", "./assets/images/gallery1.jpeg");
+        $img.setAttribute("src", "/assets/images/gallery1.jpeg");
 
         $imageWrapper.appendChild($img);
 
@@ -113,7 +113,7 @@ export default function renderHTML() {
         $imageWrapper.classList.add("img-wrapper");
 
         const $img = document.createElement("img");
-        $img.setAttribute("src", "./assets/images/gallery2.jpeg");
+        $img.setAttribute("src", "/assets/images/gallery2.jpeg");
 
         $imageWrapper.appendChild($img);
 
@@ -156,7 +156,7 @@ export default function renderHTML() {
         $imageWrapper.classList.add("img-wrapper");
 
         const $img = document.createElement("img");
-        $img.setAttribute("src", "./assets/images/gallery3.jpeg");
+        $img.setAttribute("src", "/assets/images/gallery3.jpeg");
 
         $imageWrapper.appendChild($img);
 

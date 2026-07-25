@@ -39,7 +39,7 @@ export default function renderDesk() {
     controls.dampingFactor = 0.1;
 
     const createObject = () => {
-        gltfLoader.load("./assets/models/desk/desk-modeling.glb", (gltf) => {
+        gltfLoader.load("/assets/models/desk/desk-modeling.glb", (gltf) => {
             gltf.scene.scale.set(0.25, 0.25, 0.25);
             scene.add(gltf.scene);
 

@@ -45,7 +45,7 @@ export default function shaderPractice() {
                 uTime: { value: 0 },
                 uTexture: {
                     value: textureLoader.load(
-                        "./assets/texture/new-beginnings.jpg"
+                        "/assets/texture/new-beginnings.jpg"
                     ),
                 },
             },

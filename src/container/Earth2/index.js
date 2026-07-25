@@ -41,7 +41,7 @@ export default function renderEarth2() {
 
     const textureLoader = new THREE.TextureLoader();
     const cubeTextureLoader = new THREE.CubeTextureLoader().setPath(
-        "./assets/texture/sky/"
+        "/assets/texture/sky/"
     );
     const environmentMap = cubeTextureLoader.load([
         "px.png",
@@ -134,8 +134,8 @@ export default function renderEarth2() {
             size: 0.01,
             transparent: true,
             depthWrite: false,
-            map: textureLoader.load("./assets/images/particle.png"),
-            alphaMap: textureLoader.load("./assets/images/particle.png"),
+            map: textureLoader.load("/assets/images/particle.png"),
+            alphaMap: textureLoader.load("/assets/images/particle.png"),
         });
 
         const star = new THREE.Points(particleGeometry, particleMaterial);
@@ -205,7 +205,7 @@ export default function renderEarth2() {
 
     const createEarth = () => {
         const earthMaterial = new THREE.MeshStandardMaterial({
-            map: textureLoader.load("./assets/texture/earth-night-map.jpg"),
+            map: textureLoader.load("/assets/texture/earth-night-map.jpg"),
             side: THREE.FrontSide,
             opacity: 0.9,
             transparent: true,
@@ -220,7 +220,7 @@ export default function renderEarth2() {
 
     const createCover = () => {
         const coverMaterial = new THREE.MeshStandardMaterial({
-            map: textureLoader.load("./assets/texture/earth-night-map.jpg"),
+            map: textureLoader.load("/assets/texture/earth-night-map.jpg"),
             opacity: 0.9,
             transparent: true,
             side: THREE.BackSide,

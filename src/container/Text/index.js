@@ -35,7 +35,7 @@ export async function renderText() {
     /** Font */
     const fontLoader = new FontLoader();
     const font = await fontLoader.loadAsync(
-        "../assets/fonts/The Jamsil 3 Regular_Regular.json"
+        "/assets/fonts/The Jamsil 3 Regular_Regular.json"
     );
     const textGeometry = new TextGeometry("Three.js Interactive Web", {
         font,
@@ -56,7 +56,7 @@ export async function renderText() {
     /** Texture */
     const textureLoader = new Three.TextureLoader();
     const textTexture = textureLoader.load(
-        "../assets/texture/holographic.jpeg"
+        "/assets/texture/holographic.jpeg"
     );
     textMaterial.map = textTexture;
     scene.add(text);
@@ -102,7 +102,7 @@ export async function renderText() {
     });
 
     const spotLightTexture = textureLoader.load(
-        "../assets/texture/gradient.jpg"
+        "/assets/texture/gradient.jpg"
     );
     spotLight.map = spotLightTexture;
 

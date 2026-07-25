@@ -44,7 +44,7 @@ export default function renderStarlightEarth() {
             uniforms: {
                 uTexture: {
                     value: textureLoader.load(
-                        "./assets/texture/2k_earth_specular_map.png"
+                        "/assets/texture/2k_earth_specular_map.png"
                     ),
                 },
             },
@@ -66,7 +66,7 @@ export default function renderStarlightEarth() {
             uniforms: {
                 uTexture: {
                     value: textureLoader.load(
-                        "./assets/texture/2k_earth_specular_map.png"
+                        "/assets/texture/2k_earth_specular_map.png"
                     ),
                 },
                 uTime: { value: 0 },
